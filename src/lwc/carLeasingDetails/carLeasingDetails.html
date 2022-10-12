@@ -1,0 +1,14 @@
+<template>
+    <template if:true={wiredRecord.data}>
+        <lightning-tabset variant="scoped">
+            <lightning-tab label="test">
+                <lightning-card title={carName}>
+                    <lightning-button label="test" onclick={navigateToRecordViewPage} slot="actions"></lightning-button>
+                    <lightning-record-view-form record-id={carId} object-api-name='Product2' density='compact'>
+                        <lightning-output-field field-name="Name"></lightning-output-field>
+                    </lightning-record-view-form>
+                </lightning-card>
+            </lightning-tab>
+        </lightning-tabset>
+    </template>
+</template>
