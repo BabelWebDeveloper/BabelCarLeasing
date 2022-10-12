@@ -1,0 +1,121 @@
+a {
+    color: rgba(255, 255, 255, 1) !important;
+    text-decoration: none !important;
+}
+
+p {
+    width: 100%;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: 500;
+    color: rgba(253, 107, 2, 1);
+}
+
+.nav-style {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: right;
+    width: 70%;
+    background-color: rgba(10, 9, 15, 1);
+}
+
+.logo-img-style {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+img {
+    width: 100px;
+}
+
+.nav-menu-style {
+    display: flex;
+    flex-direction: row;
+    height: 50%;
+}
+
+.nav-item-style {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2vw;
+    border-left: 1px solid rgba(253, 107, 2, 1);
+    border-right: 1px solid rgba(253, 107, 2, 1);
+    color: rgba(255, 255, 255, 1);
+    text-decoration: none;
+}
+
+.nav-item-style:hover {
+    background-color: rgba(253, 107, 2, 1);
+}
+
+section {
+    width: 100% !important;
+    background-color: #000000 !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    display: flex;
+    justify-content: right;
+}
+
+aside {
+    height: 100%;
+    width: 30%;
+    background-color: rgba(217, 217, 217, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h2 {
+    color: #FD6B02;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+    text-align: center;
+    height: 30%;
+    width: 100%;
+}
+
+ul {
+    list-style-type: inherit;
+    text-align: left;
+}
+
+li {
+    display: list-item;
+    color: white;
+    line-height: 2em;
+}
+
+.div-button-find-car {
+    position: relative;
+    background: #FD6B02;
+    border-radius: 20px;
+    width: 30%;
+    text-align: center;
+    padding: 0.5em;
+    margin: 3em 0;
+    color: white;
+}
+
+.div-button-find-car:hover {
+    background-color: rgb(80, 33, 0);
+}
+
+.anchor-style-find-car {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    text-align: center;
+}

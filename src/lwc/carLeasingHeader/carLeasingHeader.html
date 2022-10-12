@@ -1,0 +1,20 @@
+<template>
+    <h1 class="slds-p-vertical_large">Find your dream car for lease!</h1>
+    <header>
+        <div class="header-div2">
+            <lightning-input type="text" label=" "
+                             value={searchKey}
+                             onchange={handleSearchKey}
+                             class="header-div2">
+            </lightning-input>
+
+            <lightning-button variant="base" label="Search" title="Looks like a link" onclick={SearchCarsHandler}
+                              class="slds-m-left_medium search-button"></lightning-button>
+        </div>
+        <a href="/car-leasing-checkout-page" class="header-div2">
+            <lightning-icon icon-name="utility:cart" size="medium" class="anchor slds-p-bottom_medium"></lightning-icon>
+        </a>
+    </header>
+    <lightning-datatable key-field="id" data={product2s} columns={cols}>
+    </lightning-datatable>
+</template>

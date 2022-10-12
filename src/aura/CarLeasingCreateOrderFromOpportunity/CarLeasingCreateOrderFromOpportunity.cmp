@@ -1,0 +1,14 @@
+<aura:component description="CarLeasingCreateOrderFromOpportunity" controller="CarLeasingOpportunityOrder"
+                implements="flexipage:availableForAllPageTypes,lightning:actionOverride,force:hasRecordId,force:lightningQuickAction">
+    <aura:attribute name="recordId" type="Id" default=""/>
+    <!--    przemo test-->
+    <p class="slds-text-body_regular slds-align_absolute-center slds-m-vertical_small">Are you sure to create new order from this opportunity?</p>
+    <div class="slds-grid slds-gutters slds-align_absolute-center" style="width:50%">
+        <div class="slds-col">
+            <lightning:button variant="success" label="Yes" title="Yes, create Order" onclick="{!c.init}" class="slds-align_absolute-center slds-m-vertical_small"/>
+        </div>
+        <div class="slds-col">
+            <lightning:button variant="destructive" label="No" title="No" onclick="{!c.close}" class="slds-align_absolute-center slds-m-vertical_small"/>
+        </div>
+    </div>
+</aura:component>
