@@ -3,7 +3,7 @@ import {publish, MessageContext} from 'lightning/messageService';
 import carLeasingSearchChannel from '@salesforce/messageChannel/carLeasingSearchChannel__c';
 
 export default class CarLeasingSearchBYManufacturer extends LightningElement {
-    searchKey;
+    searchKey = '';
 
     @track
     product2s;

@@ -1,11 +1,11 @@
 ({
-    init : function(component, event, helper) {
+    init: function (component, event, helper) {
         console.log('work')
         var action = component.get("c.createOrder");
         var oppId = component.get("v.recordId");
 
-        action.setParams({oppId : oppId});
-        action.setCallback(this,function(response){
+        action.setParams({oppId: oppId});
+        action.setCallback(this, function (response) {
         });
         $A.enqueueAction(action);
         $A.get("e.force:closeQuickAction").fire();
@@ -13,11 +13,11 @@
         $A.enqueueAction(a);
     },
 
-    close : function(component, event, helper){
+    close: function (component, event, helper) {
         $A.get("e.force:closeQuickAction").fire();
     },
 
-    showToast : function(component, event, helper) {
+    showToast: function (component, event, helper) {
         var toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
             "title": "Success!",

@@ -1,9 +1,13 @@
-/**
- * Created by przemyslaw.babel on 11.10.2022.
- */
 a {
     color: rgba(255, 255, 255, 1) !important;
     text-decoration: none !important;
+}
+
+.nav-div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0;
 }
 
 .nav-style {
@@ -13,6 +17,26 @@ a {
     justify-content: right;
     width: 70%;
     background-color: rgba(10, 9, 15, 1);
+}
+
+.user-div {
+    width: 20%;
+    display: flex;
+    justify-content: left;
+    margin-left: 20px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-div-p {
+    color: white;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.log-out-style {
+    cursor: pointer !important;
 }
 
 .logo-img-style {

@@ -58,8 +58,7 @@ export default class CarLeasingSearchResults extends LightningElement {
         if (result.data !== undefined) {
             if (result.data.length < 1) {
                 this.emptyResults = true;
-            }
-            else {
+            } else {
                 this.emptyResults = false;
             }
         }

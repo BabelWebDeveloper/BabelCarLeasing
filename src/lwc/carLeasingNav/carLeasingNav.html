@@ -1,23 +1,40 @@
 <template>
-    <nav class="nav-style">
-        <div class="logo-img-style">
-            <img src={label.carLeasingLogoTransparent}></div>
-        <div class="nav-menu-style">
-            <a href="/offer" class="nav-item-style">
-                <p>OFFER</p>
-            </a>
-            <a href="/about-us" class="nav-item-style">
-                <p>ABOUT US</p>
-            </a>
-            <a href="/contact" class="nav-item-style">
-                <p>CONTACT</p>
-            </a>
-            <a href="/login" class="nav-item-style">
-                <p>LOG IN</p>
-            </a>
-            <a href="/SelfRegister" class="nav-item-style">
-                <p>SIGN UP</p>
-            </a>
-        </div>
-    </nav>
+    <div class="nav-div">
+        <nav class="nav-style">
+            <div class="logo-img-style">
+                <img src={label.carLeasingLogoTransparent}></div>
+            <div class="nav-menu-style">
+                <a href="/" class="nav-item-style">
+                    <p>HOME</p>
+                </a>
+                <a href="/bcl/offer" class="nav-item-style">
+                    <p>OFFER</p>
+                </a>
+                <a href="/bcl/about-us" class="nav-item-style">
+                    <p>ABOUT US</p>
+                </a>
+                <a href="/bcl/contact" class="nav-item-style">
+                    <p>CONTACT</p>
+                </a>
+                <template if:true={isGuestUser}>
+                    <a href="/bcl/login" class="nav-item-style">
+                        <p>LOG IN</p>
+                    </a>
+                    <a href="/bcl/SelfRegister" class="nav-item-style">
+                        <p>SIGN UP</p>
+                    </a>
+                </template>
+                <template if:false={isGuestUser}>
+                    <div class="nav-item-style log-out-style">
+                        <p onclick={logout123} >LOG OUT</p>
+                    </div>
+                </template>
+            </div>
+        </nav>
+        <template if:false={isGuestUser}>
+            <div class="user-div">
+                <p class="user-div-p">Logged as: {name} </p>
+            </div>
+        </template>
+    </div>
 </template>

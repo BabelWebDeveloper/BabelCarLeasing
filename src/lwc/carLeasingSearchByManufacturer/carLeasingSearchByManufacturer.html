@@ -1,20 +1,21 @@
 <template>
-    <h1 class="slds-truncate slds-text-heading_large">Search car by manufacturer</h1>
-    <header>
-        <div class="header-div2">
-            <lightning-input type="text" label=" "
-                             value={searchKey}
-                             onchange={handleSearchKey}
-                             class="header-div2">
-            </lightning-input>
-
-            <div onclick={setSearchKey}
-                 class="search-button">Search
-            </div>
-        </div>
-    </header>
     <div>
-        <c-car-leasing-search-results onloading={handleLoading}
-                                      ondoneloading={handleDoneLoading}></c-car-leasing-search-results>
+        <h2 class="slds-truncate slds-text-heading_medium">Search car</h2>
+        <header>
+            <div class="header-div2">
+                <input type="text"
+                                 class="input-style"
+                                 value={searchKey}
+                                 onchange={handleSearchKey}>
+
+                <div onclick={setSearchKey}
+                     class="search-button">Search
+                </div>
+            </div>
+        </header>
+        <div>
+            <c-car-leasing-search-results onloading={handleLoading}
+                                          ondoneloading={handleDoneLoading}></c-car-leasing-search-results>
+        </div>
     </div>
 </template>

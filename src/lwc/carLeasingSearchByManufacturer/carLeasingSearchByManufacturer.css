@@ -1,5 +1,12 @@
-h1 {
+h2 {
     text-align: center;
+}
+.div-style-bgc{
+    width: 100% !important;
+    background-color: #000000 !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
 }
 
 header {
@@ -12,8 +19,10 @@ header {
 .header-div2 {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
     margin: 10px;
+    width: 15%;
 }
 
 .anchor {
@@ -22,9 +31,14 @@ header {
     text-align: center;
 }
 
+.input-style{
+    height: 34px;
+}
+
 .search-button {
-    color: #FD6B02 !important;
+    background-color: #FD6B02 !important;
+    color: white;
     cursor: pointer;
-    margin: 10px;
     border-radius: 5px;
+    padding: 5px;
 }
