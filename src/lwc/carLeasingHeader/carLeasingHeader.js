@@ -18,10 +18,4 @@ export default class ApexWireMethodWithParams extends LightningElement {
                 this.product2s = null;
             });
     }
-
-    cols = [
-        {label: 'Model', fieldName: 'Name', type: 'text'},
-        {label: 'Model', fieldName: 'Name', type: 'text'},
-        {label: 'Model', fieldName: 'Name', type: 'text'}
-    ]
 }

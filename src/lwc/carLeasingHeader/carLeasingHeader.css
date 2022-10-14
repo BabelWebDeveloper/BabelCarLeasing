@@ -1,23 +1,26 @@
-h1{
-    font-family: 'Cinzel', serif;
+h1 {
     text-align: center;
 }
-header{
+
+header {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     height: 100%;
 }
-.header-div2{
+
+.header-div2 {
     display: inline-block;
     align-self: flex-end;
 }
-.anchor{
+
+.anchor {
     width: 100%;
     height: 100%;
     text-align: center;
 }
-.search-button{
+
+.search-button {
     color: rgb(58, 58, 58);
 }

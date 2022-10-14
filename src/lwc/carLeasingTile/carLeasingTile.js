@@ -20,5 +20,7 @@ export default class CarLeasingTile extends LightningElement {
             }
         });
         this.dispatchEvent(carselect);
+        console.log(this.selectedCarId);
+        window.location.href = '/bcl/car-details?recordId=' + this.selectedCarId;
     }
 }

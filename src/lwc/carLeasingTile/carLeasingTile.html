@@ -1,17 +1,12 @@
 <template>
-    <div onclick={selectCar}>
+    <div>
         <div style={backgroundStyle} class="tile"></div>
         <div class="lower-third">
             <h1 class="slds-truncate slds-text-heading_medium">{car.Product2.Manufacturer__c}
                 {car.Product2.Model__c}</h1>
             <p class="slds-text-body_small div-text-center">{car.Product2.Engine_Type__c} | {car.Product2.Body_Type__c}
                 | {car.Product2.Horsepower__c}KM</p>
-            <p class="slds-text-body_small div-text-right">
-                <lightning-formatted-number value={car.UnitPrice}
-                                            maximum-fraction-digits="2"></lightning-formatted-number>
-                EUR
-            </p>
-            <c-car-leasing-details></c-car-leasing-details>
+            <div onclick={selectCar} class="div-button-find-car">Check details</div>
         </div>
     </div>
 </template>

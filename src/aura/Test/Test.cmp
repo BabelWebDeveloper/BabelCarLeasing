@@ -1,0 +1,85 @@
+<aura:component
+        implements="forceCommunity:searchInterface,flexipage:availableForAllPageTypes"
+        access="global"
+        controller="CarLeasingAdminController">
+
+
+    <aura:attribute name="productCode" type="String" access="global" default=""/>
+    <aura:attribute name="manufacturer" type="String" access="global" default=""/>
+    <aura:attribute name="model" type="String" access="global" default=""/>
+    <aura:attribute name="horsepower" type="Integer" access="global" default=""/>
+    <aura:attribute name="productionYear" type="Date" access="global" default=""/>
+
+    <aura:attribute name="gearbox" type="String"/>
+    <aura:attribute name="engineType" type="String"/>
+    <aura:attribute name="bodyType" type="String"/>
+
+    <aura:attribute name="imageUrl" type="String" access="global" default="none"/>
+
+    <lightning:layout verticalAlign="stretch" multipleRows="true" class="x-large">
+        <lightning:layoutItem flexibility="auto" padding="around-small" class="custom-box slds-size_1-of-1">
+            <lightning:input type="text" name="title" label="Product code" value="{!v.productCode}"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="around-small" class="custom-box slds-size_1-of-1">
+            <lightning:input type="text" name="title" label="Manufacturer" value="{!v.manufacturer}"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="around-small" class="custom-box slds-size_1-of-1">
+            <lightning:input type="text" label="Model" value="{!v.model}"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="around-small" class="custom-box slds-size_1-of-1">
+            <lightning:input type="number" label="Horsepower" value="{!v.horsepower}"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="around-small" class="custom-box slds-size_1-of-1">
+            <lightning:input type="date" label="Production year"  value="{!v.productionYear}"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="horizontal-medium" class="slds-size_2-of-12">
+            <p class="title">Select gearbox</p>
+            <ui:inputSelect class=""
+                            change="{!c.setGearbox}">
+                <ui:inputSelectOption text="Automatic" value="true"/>
+                <ui:inputSelectOption text="Manual"/>
+            </ui:inputSelect>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="horizontal-medium" class="slds-size_2-of-12">
+            <p class="title">Select body type</p>
+            <ui:inputSelect class=""
+                            change="{!c.setBodyType}">
+                <ui:inputSelectOption text="SUV" value="true"/>
+                <ui:inputSelectOption text="Limousine"/>
+                <ui:inputSelectOption text="Cabrio"/>
+                <ui:inputSelectOption text="Coupe"/>
+                <ui:inputSelectOption text="Wagon"/>
+                <ui:inputSelectOption text="Hatchback"/>
+            </ui:inputSelect>
+        </lightning:layoutItem>
+        <lightning:layoutItem flexibility="auto" padding="horizontal-medium" class="slds-size_2-of-12">
+            <p class="title">Select engine type</p>
+            <ui:inputSelect class=""
+                            change="{!c.setEngineType}">
+                <ui:inputSelectOption text="Electric" value="true"/>
+                <ui:inputSelectOption text="Diesel"/>
+                <ui:inputSelectOption text="Petrol"/>
+                <ui:inputSelectOption text="Hybrid"/>
+            </ui:inputSelect>
+        </lightning:layoutItem>
+
+        <lightning:layoutItem flexibility="auto" padding="around-small" class="custom-box slds-size_1-of-1">
+            <div class="pictureContainer">
+                <aura:if isTrue="{!v.imageUrl == 'none'}">
+                    <div class="inputPictureContainer">
+                        <span class="uploadText">Upload News Image</span>
+                        <lightning:fileUpload name="fileUploader" multiple="false"
+                                              accept=".png, .jpg, .jpeg" onuploadfinished="{!c.handleUploadFinished}"/>
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{!v.imageUrl != 'none'}">
+                    <img class="picture" src="{!v.imageUrl}"/>
+                </aura:if>
+            </div>
+        </lightning:layoutItem>
+        <lightning:button variant="neutral"
+                          label="Save"
+                          title="Save"
+                          onclick="{!c.saveNewCar}"/>
+    </lightning:layout>
+</aura:component>

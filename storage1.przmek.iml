@@ -16,6 +16,14 @@
                       <option name="entries">
                         <list>
                           <MetadataEntry>
+                            <option name="name" value="CarLeasingAdminController" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CarLeasingCarBuilder" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="CarLeasingExperienceCloudController" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
@@ -43,6 +51,10 @@
                             <option name="name" value="customLogoutButtonWrapper" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="Test" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
                         </list>
                       </option>
                       <option name="name" value="AuraDefinitionBundle" />
@@ -52,7 +64,7 @@
                       <option name="entries">
                         <list>
                           <MetadataEntry>
-                            <option name="name" value="carLeasingDetails" />
+                            <option name="name" value="carLeasingCarDetails" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>

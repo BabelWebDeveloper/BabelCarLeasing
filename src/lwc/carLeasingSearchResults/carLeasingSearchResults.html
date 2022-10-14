@@ -14,6 +14,21 @@
             </lightning-layout>
         </div>
     </template>
+    <template if:true={allCars}>
+        <div class="slds-scrollable_y">
+            <lightning-layout horizontal-align="center" multiple-rows>
+                <template for:each={pricebookEntries} for:item="car">
+                    <lightning-layout-item key={car.Id} padding="around-small" size="12" small-device-size="6"
+                                           medium-device-size="4" large-device-size="3" class="div-wrap">
+                        <c-car-leasing-tile
+                                car={car}
+                                oncarselect={updateSelectedTile}>
+                        </c-car-leasing-tile>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </div>
+    </template>
     <template if:true={emptyResults}>
         <h2>There is no records based on such criteria.</h2>
     </template>

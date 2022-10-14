@@ -26,7 +26,7 @@
                 </template>
                 <template if:false={isGuestUser}>
                     <div class="nav-item-style log-out-style">
-                        <p onclick={logout123} >LOG OUT</p>
+                        <p onclick={out}>LOG OUT</p>
                     </div>
                 </template>
             </div>
@@ -34,6 +34,9 @@
         <template if:false={isGuestUser}>
             <div class="user-div">
                 <p class="user-div-p">Logged as: {name} </p>
+            </div>
+            <div>
+                <img src={picture} alt="" srcset="">
             </div>
         </template>
     </div>

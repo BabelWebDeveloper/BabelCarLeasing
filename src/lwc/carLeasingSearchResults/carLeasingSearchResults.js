@@ -1,7 +1,8 @@
 import {LightningElement, track, wire, api} from 'lwc';
 import {subscribe, publish, MessageContext} from 'lightning/messageService';
 import carLeasingSearchChannel from '@salesforce/messageChannel/carLeasingSearchChannel__c';
-import findpricebookEntriesByName from '@salesforce/apex/CarLeasingExperienceCloudController.searchCarsByName';
+import findCarsByName from '@salesforce/apex/CarLeasingExperienceCloudController.searchCarsByName';
+import getAllCars from '@salesforce/apex/CarLeasingExperienceCloudController.getAllCars';
 
 export default class CarLeasingSearchResults extends LightningElement {
     subscription = null;
@@ -13,6 +14,7 @@ export default class CarLeasingSearchResults extends LightningElement {
 
     @track
     pricebookEntries;
+    allCars = true;
     isLoading = false;
 
     @api
@@ -39,11 +41,21 @@ export default class CarLeasingSearchResults extends LightningElement {
         this.searchKey = message.searchKeyManufacturer;
     }
 
-    @wire(findpricebookEntriesByName, {carNameSearchKey: '$searchKey'})
+    @wire(findCarsByName, {carNameSearchKey: '$searchKey'})
     wiredCars(result) {
+        this.allCars = false;
         this.pricebookEntries = result;
-        this.notifyLoading(false);
         this.checkSizeOfResults(result);
+    }
+
+    @wire(getAllCars)
+    getAllCars({data}) {
+        if (data) {
+            this.allCars = true;
+            console.log(data)
+            this.pricebookEntries = data;
+            this.checkSizeOfResults(data);
+        }
     }
 
     notifyLoading(isLoading) {
@@ -66,7 +78,7 @@ export default class CarLeasingSearchResults extends LightningElement {
 
     updateSelectedTile(event) {
         this.selectedCarId = event.detail.carId;
-        this.sendMessageService(this.selectedCarId)
+        this.sendMessageService(this.selectedCarId);
     }
 
     sendMessageService(carId) {
