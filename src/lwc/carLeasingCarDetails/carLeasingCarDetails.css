@@ -85,7 +85,7 @@ section {
 
 :host {
     --sds-c-slider-track-color-background: orange;
-    --sds-c-slider-thumb-color-foreground: black;
+    --sds-c-slider-thumb-color-foreground: rgb(0, 0, 0);
 }
 
 .div-button-find-car {
@@ -98,6 +98,10 @@ section {
     margin: 1em auto;
     color: white;
     cursor: pointer;
+}
+
+.div-button-find-car:hover {
+    background-color: rgb(80, 33, 0);
 }
 
 .div-wrap {
@@ -177,7 +181,7 @@ table th {
 }
 
 a {
-    color: #03658c;
+    color: rgb(0, 0, 0);
     text-decoration: none;
 }
 
@@ -344,4 +348,47 @@ body {
     .reply-list .comment-box {
         width: 320px;
     }
+}
+
+form {
+
+}
+
+.value-button {
+    display: inline-block;
+    margin: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 30%;
+    line-height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0;
+    background: #FD6B02;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+.value-button:hover{
+    background-color: rgb(80, 33, 0);
+}
+
+.input-style {
+    text-align: center;
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

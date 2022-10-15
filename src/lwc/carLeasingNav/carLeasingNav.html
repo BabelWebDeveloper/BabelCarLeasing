@@ -33,11 +33,12 @@
         </nav>
         <template if:false={isGuestUser}>
             <div class="user-div">
-                <p class="user-div-p">Logged as: {name} </p>
+                <p class="user-div-p">{name}</p>
             </div>
-            <div>
-                <img src={picture} alt="" srcset="">
+            <div class="user-div-picture-img">
+                <img class="user-picture-img" src={picture} alt="" srcset="">
             </div>
+            <c-car-leasing-cart></c-car-leasing-cart>
         </template>
     </div>
 </template>

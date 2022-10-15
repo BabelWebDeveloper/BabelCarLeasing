@@ -15,6 +15,7 @@ export default class CarLeasingCarDetails extends LightningElement {
     manufacturer;
     model;
     totalMonthlyPayment;
+    review;
 
     maxStartFee;
     stepOfFee;
@@ -22,6 +23,7 @@ export default class CarLeasingCarDetails extends LightningElement {
     intRate = 1.25;
     startFee = 0;
     monInt = this.intRate / 1200;
+    carsQuantity = 1;
 
     connectedCallback() {
         let record = this.getQueryCarId();
@@ -54,6 +56,7 @@ export default class CarLeasingCarDetails extends LightningElement {
             this.body = this.car.Product2.Body_Type__c;
             this.manufacturer = this.car.Product2.Manufacturer__c;
             this.model = this.car.Product2.Model__c;
+            this.review = this.car.Product2.ReviewLink__c;
             this.maxStartFee = this.car.UnitPrice * 0.3;
             this.stepOfFee = this.car.UnitPrice * 0.3 * 0.1;
             this.calculateLeasing();
@@ -75,12 +78,24 @@ export default class CarLeasingCarDetails extends LightningElement {
     }
 
     calculateLeasing() {
-        this.totalMonthlyPayment = (
+        this.totalMonthlyPayment = ((
                         (this.monInt +
                             (this.monInt / (Math.pow((1 + this.monInt), this.contractPeriod) - 1))
                         ) *
                         (this.unitPrice - (this.startFee || 0))
-                    ).toFixed(2);
+                    ) * this.carsQuantity).toFixed(2);
+    }
+
+    increaseQuantity() {
+        this.carsQuantity++;
+        this.calculateLeasing();
+    }
+
+    decreaseQuantity() {
+        if (this.carsQuantity > 1) {
+            this.carsQuantity--;
+            this.calculateLeasing();
+        }
     }
 }
 

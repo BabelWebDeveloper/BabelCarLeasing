@@ -14,7 +14,7 @@ public without sharing class CarLeasingExperienceCloudController {
                         Product2.Body_Type__c,
                         Product2Id
                 FROM PricebookEntry
-                WHERE Pricebook2Id = :'01s7Q00000ChBWwQAN'
+                WHERE Pricebook2Id = :getActivePricebook()
                 AND Product2Id IN (
                         SELECT
                                 Id
@@ -38,7 +38,7 @@ public without sharing class CarLeasingExperienceCloudController {
                 '        Product2.Body_Type__c,\n' +
                 '        Product2Id\n' +
                 'FROM PricebookEntry\n' +
-                'WHERE Pricebook2Id = \'01s7Q00000ChBWwQAN\'\n' +
+                'WHERE Pricebook2Id = ' + '\'' + getActivePricebook() + '\'' +
                 'AND Product2Id IN (\n' +
                 '        SELECT\n' +
                 '                Id\n' +
@@ -56,7 +56,6 @@ public without sharing class CarLeasingExperienceCloudController {
 
     @AuraEnabled(cacheable=true)
     public static PriceBookEntry searchCarsById(String carId) {
-        System.debug('searchCarsById work');
         PriceBookEntry car = [
                 SELECT
                         Id,
@@ -68,9 +67,10 @@ public without sharing class CarLeasingExperienceCloudController {
                         Product2.Engine_Type__c,
                         Product2.Picture__c,
                         Product2.Body_Type__c,
+                        Product2.ReviewLink__c,
                         Product2Id
                 FROM PricebookEntry
-                WHERE Pricebook2Id = :'01s7Q00000ChBWwQAN'
+                WHERE Pricebook2Id = :getActivePricebook()
                 AND Product2Id = :carId
         ];
         System.debug(car);
@@ -90,4 +90,34 @@ public without sharing class CarLeasingExperienceCloudController {
         return user;
     }
 
+    @AuraEnabled(cacheable=true)
+    public static Order getUserOrder(String userId) {
+        Order pb2Standard = [
+                SELECT Id, OwnerId, Status
+                FROM Order
+                WHERE OwnerId = :userId
+                AND Status = 'Draft'
+        ];
+        return pb2Standard;
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static String getActivePricebook() {
+        PriceBook2 pb2Standard = [
+                SELECT Id
+                FROM Pricebook2
+                WHERE IsActive = true
+        ];
+        return pb2Standard.Id;
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static String getUserAccountId(String userId) {
+        User user = [
+                SELECT Account.Id
+                FROM User
+                WHERE Id = :userId
+        ];
+        return user.Account.Id;
+    }
 }

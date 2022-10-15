@@ -26,9 +26,14 @@
                 </lightning-slider>
             </div>
             <div class="div-results-offer">
-                <h3>Total cost of car: {unitPrice}</h3>
-                <h3>Monthly payment: {totalMonthlyPayment}</h3>
-                <div class="div-button-find-car" onclick={calculateLeasing}>Add to card</div>
+                <h3 class="slds-m-vertical_medium">Total cost of car: {unitPrice}</h3>
+                <h3 class="slds-m-vertical_medium">Monthly payment: {totalMonthlyPayment}</h3>
+                <form class="slds-m-vertical_medium">
+                    <div class="value-button decrease" onclick={decreaseQuantity}>-</div>
+                    <input class="input-style" min="1" type="number" id="number" value={carsQuantity} />
+                    <div class="value-button increase" onclick={increaseQuantity}>+</div>
+                </form>
+                <div class="slds-m-vertical_medium div-button-find-car" onclick={calculateLeasing}>Add to card</div>
             </div>
         </div>
     </section>
@@ -63,7 +68,7 @@
             <iframe
                     width="560"
                     height="315"
-                    src="https://www.youtube.com/embed/1_Gd0rgFAQ4?controls=0"
+                    src={review}
                     frameborder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen>
@@ -77,7 +82,9 @@
                 <ul id="comments-list" class="comments-list">
                     <li>
                         <div class="comment-main-level">
-                            <div class="comment-avatar"><img src="#" alt=""></div>
+                            <div class="comment-avatar">
+<!--                                <img src="#" alt="">-->
+                            </div>
                             <div class="comment-box">
                                 <div class="comment-head">
                                     <h6 class="comment-name by-author">Agustin Ortiz</h6>

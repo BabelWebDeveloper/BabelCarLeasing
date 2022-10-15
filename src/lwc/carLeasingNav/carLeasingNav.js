@@ -8,8 +8,6 @@ import NAME_FIELD from '@salesforce/schema/User.Name';
 import EMAIL_FIELD from '@salesforce/schema/User.Email';
 import PICTURE from '@salesforce/schema/User.SmallPhotoUrl';
 
-import getUser from '@salesforce/apex/CarLeasingExperienceCloudController.fetchUser';
-
 export default class CarLeasingNav extends LightningElement {
     userId = Id;
     @track
@@ -25,9 +23,6 @@ export default class CarLeasingNav extends LightningElement {
         carLeasingLogoTransparent
     };
 
-    // connectedCallback() {
-    //     super.connectedCallback();
-    // }
 
     isGuestUser = isGuest;
 
@@ -36,15 +31,12 @@ export default class CarLeasingNav extends LightningElement {
         if (data) {
             this.name = data.fields.Name.value;
             this.email = data.fields.Email.value;
+            this.picture = 'https://bwd2-dev-ed.file.force.com/' + data.fields.SmallPhotoUrl.value;
+            // console.log(this.userId);
         } else if (error) {
             this.error = error;
         }
     }
-
-    @wire(getUser)
-    userInfo({data}) {
-        console.log(data);
-    };
 
     out() {
         window.location.href = '/secur/logout.jsp';

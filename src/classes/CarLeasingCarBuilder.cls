@@ -10,6 +10,12 @@ public with sharing class CarLeasingCarBuilder {
         return this;
     }
 
+    public CarLeasingCarBuilder setReviewUrl(String review) {
+        car.ReviewLink__c = review;
+        return this;
+    }
+
+
     public CarLeasingCarBuilder setProductCode(String productCode) {
         car.ProductCode = productCode;
         return this;
@@ -54,6 +60,7 @@ public with sharing class CarLeasingCarBuilder {
         car.Body_Type__c = bodyType;
         return this;
     }
+
 
     public Product2 getCar() {
         return car;

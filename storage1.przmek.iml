@@ -44,6 +44,10 @@
                       <option name="entries">
                         <list>
                           <MetadataEntry>
+                            <option name="name" value="CarLeasingAddProduct" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="CarLeasingCreateOrderFromOpportunity" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
@@ -65,6 +69,10 @@
                         <list>
                           <MetadataEntry>
                             <option name="name" value="carLeasingCarDetails" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="carLeasingCart" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
