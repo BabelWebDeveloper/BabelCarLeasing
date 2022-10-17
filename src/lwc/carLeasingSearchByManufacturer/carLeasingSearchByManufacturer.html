@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="slds-truncate slds-text-heading_medium">Search car</h2>
+        <h2 class="slds-truncate slds-text-heading_medium">{label.Search_car}</h2>
         <header>
             <div class="header-div2">
                 <input type="text"
@@ -9,7 +9,7 @@
                        onchange={handleSearchKey}>
 
                 <div onclick={setSearchKey}
-                     class="search-button">Search
+                     class="search-button">{label.Search}
                 </div>
             </div>
         </header>

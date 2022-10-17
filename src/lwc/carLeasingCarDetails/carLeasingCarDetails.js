@@ -1,5 +1,14 @@
 import {LightningElement, wire, track} from 'lwc';
 import findCarById from '@salesforce/apex/CarLeasingExperienceCloudController.searchCarsById';
+import {publish, MessageContext} from 'lightning/messageService';
+import sendProductChannel from '@salesforce/messageChannel/carLeasingSendProductChannel__c';
+import Total_cost_of_car from '@salesforce/label/c.Total_cost_of_car';
+import Monthly_payment from '@salesforce/label/c.Monthly_payment';
+import Add_to_card from '@salesforce/label/c.Add_to_card';
+import Horsepower from '@salesforce/label/c.Horsepower';
+import Gearbox from '@salesforce/label/c.Gearbox';
+import Engine from '@salesforce/label/c.Engine';
+import Body from '@salesforce/label/c.Body';
 
 export default class CarLeasingCarDetails extends LightningElement {
     carId;
@@ -30,6 +39,28 @@ export default class CarLeasingCarDetails extends LightningElement {
         this.carId = record.recordId;
     }
 
+    @wire(MessageContext)
+    messageContext;
+
+    addProductToCart(){
+        const detailsLoad = {
+            carId: this.carId,
+            carManufacturer: this.manufacturer,
+            carModel: this.model,
+            carPicture: this.picture,
+            totalMonthlyPayment: this.totalMonthlyPayment,
+            carsQuantity: this.carsQuantity,
+            contractPeriod: this.contractPeriod,
+            startFee: this.startFee,
+            unitPrice: this.unitPrice,
+        };
+        this.sendMessageService(detailsLoad);
+    }
+
+    sendMessageService(detailsLoad) {
+        publish(this.messageContext, sendProductChannel, detailsLoad);
+    }
+
     getQueryCarId() {
         let params = {};
         let search = location.search.substring(1);
@@ -45,7 +76,6 @@ export default class CarLeasingCarDetails extends LightningElement {
 
     @wire(findCarById, {carId: '$carId'})
     wiredCars(result) {
-        console.log(result)
         if (result.data !== undefined) {
             this.car = result.data;
             this.unitPrice = this.car.UnitPrice;
@@ -96,6 +126,16 @@ export default class CarLeasingCarDetails extends LightningElement {
             this.carsQuantity--;
             this.calculateLeasing();
         }
+    }
+
+    label = {
+        Total_cost_of_car,
+        Monthly_payment,
+        Add_to_card,
+        Horsepower,
+        Gearbox,
+        Engine,
+        Body
     }
 }
 

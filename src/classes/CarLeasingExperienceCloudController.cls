@@ -1,6 +1,7 @@
 public without sharing class CarLeasingExperienceCloudController {
     @AuraEnabled(cacheable=true)
     public static List<PriceBookEntry> getAllCars() {
+        System.debug('all cars');
         return [
                 SELECT
                         Id,
@@ -73,7 +74,6 @@ public without sharing class CarLeasingExperienceCloudController {
                 WHERE Pricebook2Id = :getActivePricebook()
                 AND Product2Id = :carId
         ];
-        System.debug(car);
         return car;
     }
 
@@ -112,6 +112,19 @@ public without sharing class CarLeasingExperienceCloudController {
     }
 
     @AuraEnabled(cacheable=true)
+    public static String getPricebookEntry(String productId) {
+        PricebookEntry pricebookEntry = [
+                SELECT
+                        Id,
+                        Name,
+                        Product2Id
+                FROM PricebookEntry
+                WHERE Product2Id = :productId
+        ];
+        return pricebookEntry.Id;
+    }
+
+    @AuraEnabled(cacheable=true)
     public static String getUserAccountId(String userId) {
         User user = [
                 SELECT Account.Id
@@ -119,5 +132,49 @@ public without sharing class CarLeasingExperienceCloudController {
                 WHERE Id = :userId
         ];
         return user.Account.Id;
+    }
+
+    @AuraEnabled
+    public static void createOrderItem(
+            String carId,
+            String manufacturer,
+            String model,
+            String picture,
+            Double totalMonthlyPayment,
+            Integer carsQuantity,
+            Integer contractPeriod,
+            Double startFee,
+            String orderId,
+            String userAccountId,
+            Double unitPrice) {
+
+        String pricebookId = getActivePricebook();
+        String pricebookEntryId = getPricebookEntry(carId);
+
+        if (orderId == null) {
+            Order order = new Order();
+            order.AccountId = userAccountId;
+            order.EffectiveDate = System.today();
+            order.Status = 'Draft';
+            order.PriceBook2Id = pricebookId;
+            insert order;
+
+            OrderItem lineItem = new OrderItem();
+            lineItem.OrderId = order.id;
+            lineItem.Quantity = carsQuantity;
+            lineItem.UnitPrice = totalMonthlyPayment;
+            lineItem.Product2id = carId;
+            lineItem.PricebookEntryId = pricebookEntryId;
+            insert lineItem;
+
+        } else {
+            OrderItem lineItem = new OrderItem();
+            lineItem.OrderId = orderId;
+            lineItem.Quantity = carsQuantity;
+            lineItem.UnitPrice = totalMonthlyPayment;
+            lineItem.Product2id = carId;
+            lineItem.PricebookEntryId = pricebookEntryId;
+            insert lineItem;
+        }
     }
 }

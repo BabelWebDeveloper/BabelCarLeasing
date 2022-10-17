@@ -32,7 +32,6 @@ export default class CarLeasingNav extends LightningElement {
             this.name = data.fields.Name.value;
             this.email = data.fields.Email.value;
             this.picture = 'https://bwd2-dev-ed.file.force.com/' + data.fields.SmallPhotoUrl.value;
-            // console.log(this.userId);
         } else if (error) {
             this.error = error;
         }

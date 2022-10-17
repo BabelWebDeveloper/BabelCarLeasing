@@ -3,6 +3,7 @@ import {subscribe, publish, MessageContext} from 'lightning/messageService';
 import carLeasingSearchChannel from '@salesforce/messageChannel/carLeasingSearchChannel__c';
 import findCarsByName from '@salesforce/apex/CarLeasingExperienceCloudController.searchCarsByName';
 import getAllCars from '@salesforce/apex/CarLeasingExperienceCloudController.getAllCars';
+import There_is_no_records_based_on_such_criteria  from '@salesforce/label/c.There_is_no_records_based_on_such_criteria';
 
 export default class CarLeasingSearchResults extends LightningElement {
     subscription = null;
@@ -84,4 +85,8 @@ export default class CarLeasingSearchResults extends LightningElement {
     sendMessageService(carId) {
         publish(this.messageContext, carLeasingSearchChannel, {recordId: carId});
     }
+
+    label = {
+        There_is_no_records_based_on_such_criteria
+    };
 }
