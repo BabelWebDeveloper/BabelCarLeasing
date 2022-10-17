@@ -177,4 +177,16 @@ public without sharing class CarLeasingExperienceCloudController {
             insert lineItem;
         }
     }
+
+    @AuraEnabled(cacheable=true)
+    public static List<OrderItem> getOrderItems(String orderId) {
+        List<OrderItem> orderItems = [
+                SELECT
+                        Product2Id,
+                        Product2.Name,
+                        Quantity
+                FROM OrderItem WHERE OrderId =: orderId];
+        System.debug(orderItems);
+        return orderItems;
+    }
 }

@@ -1,5 +1,6 @@
 import {LightningElement, wire, track} from 'lwc';
 import carLeasingLogoTransparent from '@salesforce/resourceUrl/cllogo';
+// import logoUrl from '@salesforce/resourceUrl/clcart';
 import isGuest from '@salesforce/user/isGuest';
 
 import Id from '@salesforce/user/Id';
@@ -7,6 +8,8 @@ import {getRecord} from 'lightning/uiRecordApi';
 import NAME_FIELD from '@salesforce/schema/User.Name';
 import EMAIL_FIELD from '@salesforce/schema/User.Email';
 import PICTURE from '@salesforce/schema/User.SmallPhotoUrl';
+
+
 
 export default class CarLeasingNav extends LightningElement {
     userId = Id;
@@ -40,4 +43,9 @@ export default class CarLeasingNav extends LightningElement {
     out() {
         window.location.href = '/secur/logout.jsp';
     }
+
+
+    // get logoStyle() {
+    //     return `height:50px;background-image:url(${logoUrl})`;
+    // }
 }

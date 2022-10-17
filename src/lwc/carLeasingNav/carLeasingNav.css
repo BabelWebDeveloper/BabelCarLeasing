@@ -24,10 +24,20 @@ a {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin-left: 20px;
+    margin: 0 20px;
     align-items: center;
     cursor: default;
 }
+
+.user-div-cart {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    cursor: default;
+}
+
 
 .user-div-p {
     color: white;
@@ -79,8 +89,19 @@ img {
     align-items: center;
     margin: 0 10px;
 }
+
+.user-div-picture-margin{
+    margin-left: 20px;
+}
 .user-picture-img {
     border-radius: 50%;
     height: 25px;
     width: 25px;
+}
+.div-logo-style{
+    width: 100px !important;
+    background-color: rgb(0, 0, 0) !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
 }
