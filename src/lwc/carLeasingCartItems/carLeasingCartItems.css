@@ -1,20 +1,9 @@
-section{
-    height: 400px;
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
-}
 .tile {
-    height: 220px;
-    padding: 1px !important;
-    border-radius: 5px;
     width: 100% !important;
     background-color: transparent !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: contain !important;
-    display: flex !important;
-    align-items: flex-end !important;
 }
 
 .selected {
@@ -25,9 +14,15 @@ section{
 .slds-truncate {
     color: rgb(0, 0, 0);
 }
-
-h1 {
+h2 {
+    width: 100%;
     font-weight: 700;
+    text-align: center;
+    padding: 20px;
+}
+
+h3{
+    width: 100%;
     text-align: center;
 }
 
@@ -52,6 +47,31 @@ h1 {
     color: white;
     cursor: pointer;
 }
-.div-button-find-car:hover {
+.div-button-find-car:hover, .div-button-delete-car:hover {
     background-color: rgb(80, 33, 0);
+}
+.div-button-delete-car{
+    position: relative;
+    background: #FD6B02;
+    border-radius: 20px;
+    text-align: center;
+    padding: 0.2em;
+    width: 70%;
+    margin: 0 auto;
+    color: white;
+    cursor: pointer;
+}
+section{
+    display: flex;
+    flex-direction: row;
+}
+
+.div-items{
+    width: 70%;
+    background-color: #FD6B02;
+}
+.div-checkout{
+    width: 30%;
+    background-color: #283035;
+    height: 30vh;
 }

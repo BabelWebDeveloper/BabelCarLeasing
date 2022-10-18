@@ -7,11 +7,6 @@ export default class CarLeasingTile extends LightningElement {
     @api
     selectedCarId;
 
-    get backgroundStyle() {
-        console.log(this.car.Product2.Picture__c);
-        return 'background-image:url(' + this.car.Product2.Picture__c + ')';
-    }
-
     selectCar() {
         this.selectedCarId = this.car.Product2Id;
         const carselect = new CustomEvent('carselect', {

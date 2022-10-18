@@ -26,6 +26,8 @@ export default class CarLeasingCarDetails extends LightningElement {
     totalMonthlyPayment;
     review;
 
+   @track cartItemsNumber = 0;
+
     maxStartFee;
     stepOfFee;
     contractPeriod = 24;
@@ -43,6 +45,7 @@ export default class CarLeasingCarDetails extends LightningElement {
     messageContext;
 
     addProductToCart(){
+        this.cartItemsNumber++;
         const detailsLoad = {
             carId: this.carId,
             carManufacturer: this.manufacturer,
@@ -53,12 +56,15 @@ export default class CarLeasingCarDetails extends LightningElement {
             contractPeriod: this.contractPeriod,
             startFee: this.startFee,
             unitPrice: this.unitPrice,
+            cartItemsNumber: this.cartItemsNumber
         };
         this.sendMessageService(detailsLoad);
     }
 
     sendMessageService(detailsLoad) {
         publish(this.messageContext, sendProductChannel, detailsLoad);
+        this.cartItemsNumber++;
+        window.location.reload();
     }
 
     getQueryCarId() {

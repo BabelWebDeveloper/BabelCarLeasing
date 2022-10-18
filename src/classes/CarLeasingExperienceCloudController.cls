@@ -1,7 +1,6 @@
 public without sharing class CarLeasingExperienceCloudController {
     @AuraEnabled(cacheable=true)
     public static List<PriceBookEntry> getAllCars() {
-        System.debug('all cars');
         return [
                 SELECT
                         Id,
@@ -183,10 +182,29 @@ public without sharing class CarLeasingExperienceCloudController {
         List<OrderItem> orderItems = [
                 SELECT
                         Product2Id,
-                        Product2.Name,
-                        Quantity
-                FROM OrderItem WHERE OrderId =: orderId];
-        System.debug(orderItems);
+                        Product2.Manufacturer__c,
+                        Product2.Model__c,
+                        Product2.Picture__c,
+                        Product2.Horsepower__c,
+                        Product2.Engine_Type__c,
+                        Product2.Gearbox__c,
+                        Quantity,
+                        OrderId,
+                        Id
+                FROM OrderItem
+                WHERE OrderId = :orderId
+        ];
         return orderItems;
+    }
+
+    @AuraEnabled
+    public static void deleteOrderItem(String orderItemId) {
+        OrderItem orderItem = [
+                SELECT
+                        Product2Id
+                FROM OrderItem
+                WHERE Id = :orderItemId
+        ];
+        delete orderItem;
     }
 }

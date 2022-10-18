@@ -1,6 +1,9 @@
 <template>
+    <p class="slds-hidden">{cartItemsNumber}</p>
     <div class="cart-picture-img" onclick={showOrderItems}>
-        <p class="cart-picture-img-item-number">{orderItemsNumber}</p>
+        <template if:true={showItemsNumberInCart}>
+            <p class="cart-picture-img-item-number">{orderItemsNumber}</p>
+        </template>
         <img src={label.cartUrl}>
     </div>
 </template>

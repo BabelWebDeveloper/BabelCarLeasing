@@ -1,10 +1,19 @@
 import {LightningElement, track, wire} from 'lwc';
 import userOrderItems from '@salesforce/apex/CarLeasingExperienceCloudController.getOrderItems';
+import Cart_items  from '@salesforce/label/c.Cart_items';
+import Quantity  from '@salesforce/label/c.Quantity';
+import Your_cart_is_empty  from '@salesforce/label/c.Your_cart_is_empty';
 
 export default class CarLeasingCartItems extends LightningElement {
     @track
     orderId;
     orderItems;
+
+    label = {
+        Cart_items,
+        Quantity,
+        Your_cart_is_empty
+    }
     
     connectedCallback() {
         let record = this.getOrderId();

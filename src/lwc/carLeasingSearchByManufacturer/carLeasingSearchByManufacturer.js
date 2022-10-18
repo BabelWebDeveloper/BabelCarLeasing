@@ -1,8 +1,8 @@
 import {LightningElement, wire, track} from 'lwc';
 import {publish, MessageContext} from 'lightning/messageService';
 import carLeasingSearchChannel from '@salesforce/messageChannel/carLeasingSearchChannel__c';
-import Search_car  from '@salesforce/label/c.Search_car';
-import Search  from '@salesforce/label/c.Search';
+import Search_car from '@salesforce/label/c.Search_car';
+import Search from '@salesforce/label/c.Search';
 
 export default class CarLeasingSearchBYManufacturer extends LightningElement {
     searchKey = '';

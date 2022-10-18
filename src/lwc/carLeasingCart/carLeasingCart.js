@@ -21,6 +21,8 @@ export default class CarLeasingCart extends LightningElement {
     carId;
     orderItems;
     orderItemsNumber;
+    cartItemsNumber;
+    showItemsNumberInCart = false;
 
     manufacturer;
     model;
@@ -35,7 +37,6 @@ export default class CarLeasingCart extends LightningElement {
     messageContext;
 
     connectedCallback() {
-        console.log('userId: ' + Id);
         this.userId = Id;
         activePricebookId()
             .then((result) => {
@@ -43,7 +44,6 @@ export default class CarLeasingCart extends LightningElement {
             })
             .catch((error) => {
                 this.error = error;
-                console.log('Error is', this.error);
             });
         activePricebookId()
             .then((result) => {
@@ -51,7 +51,6 @@ export default class CarLeasingCart extends LightningElement {
             })
             .catch((error) => {
                 this.error = error;
-                console.log('Error is', this.error);
             });
 
         this.subscribeFromMessageChannel();
@@ -79,6 +78,8 @@ export default class CarLeasingCart extends LightningElement {
         this.contractPeriod = message.contractPeriod;
         this.startFee = message.startFee;
         this.unitPrice = message.unitPrice;
+        this.cartItemsNumber = message.cartItemsNumber;
+        console.log(this.cartItemsNumber);
         this.createOrderItem();
     }
 
@@ -86,7 +87,6 @@ export default class CarLeasingCart extends LightningElement {
     wiredOrder(result) {
         if (result.data !== undefined) {
             this.order = result.data.Id;
-            // console.log(result);
         }
     }
 
@@ -112,7 +112,6 @@ export default class CarLeasingCart extends LightningElement {
             unitPrice: this.unitPrice,
         })
             .then((result) => {
-                // console.log(result);
             })
             .catch((error) => {
                 this.error = error;
@@ -123,6 +122,9 @@ export default class CarLeasingCart extends LightningElement {
     wiredOrderItems(result) {
         if (result.data !== undefined) {
             this.orderItemsNumber = result.data.length;
+            if (this.orderItemsNumber > 0) {
+                this.showItemsNumberInCart = true;
+            }
         }
     }
 
