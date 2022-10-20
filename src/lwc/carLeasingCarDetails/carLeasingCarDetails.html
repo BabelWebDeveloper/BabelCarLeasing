@@ -1,10 +1,36 @@
 <template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </template>
     <p class="slds-hidden">{cartItemsNumber}</p>
     <h1>{manufacturer} {model}</h1>
-    <h2>{unitPrice} EUR</h2>
     <section>
-        <div class="div-img-style" style={carPicture}></div>
+        <div class="div-img-style">
+            <div class="div-carousel-style">
+                <template if:true={listOfGalleryPictures}>
+                    <lightning-carousel disable-auto-scroll>
+                        <template for:each={listOfGalleryPictures} for:item="picture">
+                            <lightning-carousel-image
+                                    class="carousel-style"
+                                    key={listOfGalleryPictures.Id}
+                                    src = {picture.ContentDownloadUrl}>
+                            </lightning-carousel-image>
+                        </template>
+                    </lightning-carousel>
+                </template>
+            </div>
+        </div>
         <div class="div-offer-style">
+            <div class="div-results-offer">
+                <h2 class="h2-price-style">{unitPrice} EUR</h2>
+                <h3 class="slds-m-vertical_medium">{label.Monthly_payment} {totalMonthlyPayment}</h3>
+                <form class="slds-m-vertical_medium">
+                    <div class="value-button decrease" onclick={decreaseQuantity}>-</div>
+                    <input class="input-style" min="1" type="number" id="number" value={carsQuantity} />
+                    <div class="value-button increase" onclick={increaseQuantity}>+</div>
+                </form>
+                <div class="slds-m-vertical_medium div-button-find-car" onclick={addProductToCart}>{label.Add_to_card}</div>
+            </div>
             <div class="div-set-offer">
                 <lightning-slider
                         label="Contract period"
@@ -27,15 +53,6 @@
                         class="slider-style">
                 </lightning-slider>
             </div>
-            <div class="div-results-offer">
-                <h3 class="slds-m-vertical_medium">{label.Monthly_payment} {totalMonthlyPayment}</h3>
-                <form class="slds-m-vertical_medium">
-                    <div class="value-button decrease" onclick={decreaseQuantity}>-</div>
-                    <input class="input-style" min="1" type="number" id="number" value={carsQuantity} />
-                    <div class="value-button increase" onclick={increaseQuantity}>+</div>
-                </form>
-                <div class="slds-m-vertical_medium div-button-find-car" onclick={addProductToCart}>{label.Add_to_card}</div>
-            </div>
         </div>
     </section>
     <section>
@@ -44,50 +61,60 @@
             <div class="div-wrap">
                 <table>
                     <thead>
+                        <tr>
+                            <th scope="col">{label.Horsepower}</th>
+                            <th scope="col">{label.Gearbox}</th>
+                            <th scope="col">{label.Engine}</th>
+                            <th scope="col">Acceleration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Horsepower">{horsepower}</td>
+                            <td data-label="Gearbox">{gearbox}</td>
+                            <td data-label="Engine">{engine}</td>
+                            <td data-label="Acceleration">{acceleration}</td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th scope="col">Length</th>
+                            <th scope="col">Height</th>
+                            <th scope="col">Width</th>
+                            <th scope="col">{label.Body}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Length">{length}</td>
+                            <td data-label="Height">{height}</td>
+                            <td data-label="Width">{width}</td>
+                            <td data-label="Body">{body}</td>
+                        </tr>
+                    </tbody>
+                    <thead>
                     <tr>
-                        <th scope="col">{label.Horsepower}</th>
-                        <th scope="col">{label.Gearbox}</th>
-                        <th scope="col">{label.Engine}</th>
-                        <th scope="col">{label.Body}</th>
+                        <th scope="col">Fuel consumption</th>
+                        <th scope="col">Number of seats</th>
+                        <th scope="col">Production year</th>
+                        <th scope="col">Size of wheels</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td data-label="Horsepower">{horsepower}</td>
-                        <td data-label="Gearbox">{gearbox}</td>
-                        <td data-label="Engine">{engine}</td>
-                        <td data-label="Body">{body}</td>
-                    </tr>
+                        <tr>
+                            <td data-label="Fuel consumption">{fuelConsumption}</td>
+                            <td data-label="Number of seats">{numberOfSeats}</td>
+                            <td data-label="Production year">{yearOfProduction}</td>
+                            <td data-label="Body">{theSizeOfTheWheels}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-                numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-                optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-                obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-                nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-                tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-                quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos
-                sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-                recusandae alias error harum maxime adipisci amet laborum. Perspiciatis
-                minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit
-                quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur
-                fugiat, temporibus enim commodi iusto libero magni deleniti quod quam
-                consequuntur! Commodi minima excepturi repudiandae velit hic maxime
-                doloremque. Quaerat provident commodi consectetur veniam similique ad
-                earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo
-                fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore
-                suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium
-                modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam
-                totam ratione voluptas quod exercitationem fuga.</p>
         </div>
     </section>
     <section>
         <div class="div-review-style">
             <h2>Car review</h2>
-<!--            width="1020"-->
-<!--            height="630"-->
             <iframe
                     src={review}
                     frameborder="0"

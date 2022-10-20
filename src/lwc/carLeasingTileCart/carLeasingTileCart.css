@@ -1,0 +1,60 @@
+section{
+    height: 400px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+.tile {
+    height: 220px;
+    padding: 1px !important;
+    border-radius: 5px;
+    width: 100% !important;
+    background-color: transparent !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    display: flex !important;
+    align-items: flex-end !important;
+}
+
+.selected {
+    border: 3px solid rgb(0, 95, 178);
+    border-radius: 5px;
+}
+
+.slds-truncate {
+    color: rgb(0, 0, 0);
+}
+
+h1 {
+    font-weight: 700;
+    text-align: center;
+}
+
+.div-text-center {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.div-text-right {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.div-button-find-car {
+    position: relative;
+    background: #FD6B02;
+    border-radius: 20px;
+    text-align: center;
+    padding: 0.2em;
+    width: 70%;
+    margin: 1em auto;
+    color: white;
+    cursor: pointer;
+}
+.div-button-find-car:hover {
+    background-color: rgb(80, 33, 0);
+}
+p{
+    text-align: center;
+}

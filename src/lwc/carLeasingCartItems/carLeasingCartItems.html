@@ -1,30 +1,70 @@
 <template>
-    <template if:true={orderItems}>
+    <template if:true={showConnectedMessage}>
         <section>
             <div class="slds-scrollable_y div-items">
                 <h2>{label.Cart_items}</h2>
-                <lightning-layout horizontal-align="center" multiple-rows>
+                <lightning-layout horizontal-align="center" multiple-rows class="cart-layout-style">
                     <template for:each={orderItems} for:item="car">
                         <lightning-layout-item key={car.Id} padding="around-small" size="12" small-device-size="6"
-                                               medium-device-size="4" large-device-size="3" class="div-wrap">
-                            <h3>{label.Quantity} {car.Quantity}</h3>
+                                               medium-device-size="4" large-device-size="8"
+                                               class="layout-cart-item-style">
                             <c-car-leasing-tile
-                                    car={car}
-                                    oncarselect={updateSelectedTile}>
+                                    car={car}>
                             </c-car-leasing-tile>
                             <c-car-leasing-delete-item-from-cart
-                                    car={car}>
+                                    car={car}
+                                    onshowmessage={showDeleteMessage}>
                             </c-car-leasing-delete-item-from-cart>
                         </lightning-layout-item>
                     </template>
                 </lightning-layout>
             </div>
             <div class="div-checkout">
+                <h2>{label.Summary}</h2>
+                <template for:each={checkoutItems} for:item="item">
+                    <div key={item.cartItemId}>
+                        <p>{item.cartItemManufacturer} {item.cartItemModel}</p>
+                        <div class="div-checkout-vertically">
+                            <p>{label.Piece} {item.cartItemQuantity}</p>
+                            <p>{item.cartItemCostItem} EUR</p>
+                        </div>
+                        <hr>
+                    </div>
+                </template>
+                <p class="p-total-cost">{label.Total_cost} {totalCost} EUR</p>
+                <div>
+                    <div class="inputWithIcon">
+                        <lightning-input value={billingStreet} type="text" label="Billing Street"
+                                         onchange={handleBilling} required></lightning-input>
+                    </div>
 
+                    <div class="inputWithIcon">
+                        <lightning-input value={billingCity} type="text" label="Billing City" onchange={handleCity}
+                                         required></lightning-input>
+                    </div>
+
+                    <div class="inputWithIcon">
+                        <lightning-input value={billingStateProvince} type="text" label="Billing State/Province"
+                                         onchange={handleStateProvince} required></lightning-input>
+                    </div>
+
+                    <div class="inputWithIcon inputIconBg">
+                        <lightning-input value={billingCountry} type="text" label="Billing Country"
+                                         onchange={handleCountry} required></lightning-input>
+                    </div>
+
+                    <div class="inputWithIcon inputIconBg">
+                        <lightning-input value={billingZipPostalCode} type="text" label="Billing Zip/Postal Code"
+                                         onchange={handleZipPostalCode} required></lightning-input>
+                    </div>
+                </div>
+                <p class="p-message">{message}</p>
+                <div onclick={checkout} class="div-button-find-car">Checkout</div>
+                <div onclick={showDeleteMessage} class="div-button-find-car">Checkout</div>
             </div>
         </section>
     </template>
-    <template if:false={orderItems}>
+    <template if:false={showConnectedMessage}>
         <h2>{label.Your_cart_is_empty}</h2>
     </template>
 </template>

@@ -11,23 +11,21 @@ export default class CarLeasingDeleteItemFromCart extends LightningElement {
     @api
     itemId;
 
-    @track
-    totalQuantity;
-
     carDelete() {
         this.selectedCarId = this.car.Product2Id;
         this.orderId = this.car.OrderId;
         this.itemId = this.car.Id;
-        this.totalQuantity = this.car.length;
         carDeleteBackend({
             orderItemId: this.car.Id
         })
-            .then((result) => {
-                console.log(result);
+            .then(() => {
+                this.dispatchEvent(new CustomEvent('showmessage'));
+            })
+            .then(() => {
+                window.location.reload();
             })
             .catch((error) => {
                 this.error = error;
             });
-        window.location.reload();
     }
 }

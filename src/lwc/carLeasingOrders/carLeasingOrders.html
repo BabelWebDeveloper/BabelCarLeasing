@@ -1,0 +1,28 @@
+<template>
+    <template if:true={activeOrders.data}>
+        <div class="slds-scrollable_y">
+            <lightning-layout horizontal-align="center" multiple-rows>
+                <template for:each={activeOrders.data} for:item="order">
+                    <lightning-layout-item key={order.Id} padding="around-small" size="12" small-device-size="12"
+                                           medium-device-size="12" large-device-size="8">
+                        <template for:each={order.OrderItems} for:item="item">
+                            <div key={item.Id} class="style-orders">
+                                <div class="div-class-orders">
+                                    <img class="style-img-orders" src={item.Product2.Picture__c}/>
+                                </div>
+                                <div>
+                                    <h1>{item.Product2.Manufacturer__c}
+                                        {item.Product2.Model__c}</h1>
+                                    <p>{item.Product2.Engine_Type__c} |
+                                        {item.Product2.Body_Type__c}
+                                        | {item.Product2.Horsepower__c}KM</p>
+                                </div>
+                            </div>
+                        </template>
+                        <hr>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </div>
+    </template>
+</template>

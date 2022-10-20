@@ -15,7 +15,6 @@ public with sharing class CarLeasingCarBuilder {
         return this;
     }
 
-
     public CarLeasingCarBuilder setProductCode(String productCode) {
         car.ProductCode = productCode;
         return this;
@@ -61,6 +60,38 @@ public with sharing class CarLeasingCarBuilder {
         return this;
     }
 
+    public CarLeasingCarBuilder setNumberOfSeats (Integer numberOfSeats) {
+        car.Number_of_seats__c = numberOfSeats;
+        return this;
+    }
+    public CarLeasingCarBuilder setAcceleration (Double acceleration) {
+        car.Acceleration__c = acceleration;
+        return this;
+    }
+    public CarLeasingCarBuilder setAverageFuelConsumption (Double averageFuelConsumption) {
+        car.Average_fuel_consumption__c = averageFuelConsumption;
+        return this;
+    }
+    public CarLeasingCarBuilder setEngineCapacity (Double engineCapacity) {
+        car.Engine_capacity__c = engineCapacity;
+        return this;
+    }
+    public CarLeasingCarBuilder setHeight (Integer height) {
+        car.Height__c = height;
+        return this;
+    }
+    public CarLeasingCarBuilder setWidth (Integer width) {
+        car.Width__c = width;
+        return this;
+    }
+    public CarLeasingCarBuilder setLength (Integer length) {
+        car.Length__c = length;
+        return this;
+    }
+    public CarLeasingCarBuilder setTheSizeOfTheWheels (Integer theSizeOfTheWheels) {
+        car.The_size_of_the_wheels__c = theSizeOfTheWheels;
+        return this;
+    }
 
     public Product2 getCar() {
         return car;

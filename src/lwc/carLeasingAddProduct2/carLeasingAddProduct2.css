@@ -1,0 +1,8 @@
+.div-style-vertically{
+    display: flex;
+    flex-direction: row;
+}
+.div-style-vertically{
+    display: flex;
+    flex-direction: column;
+}

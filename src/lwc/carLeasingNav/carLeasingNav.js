@@ -1,6 +1,5 @@
 import {LightningElement, wire, track} from 'lwc';
 import carLeasingLogoTransparent from '@salesforce/resourceUrl/cllogo';
-// import logoUrl from '@salesforce/resourceUrl/clcart';
 import isGuest from '@salesforce/user/isGuest';
 
 import Id from '@salesforce/user/Id';

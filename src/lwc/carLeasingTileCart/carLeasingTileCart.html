@@ -1,0 +1,14 @@
+<template>
+    <section>
+        <div style={backgroundStyle} class="tile">
+            <img src={car.Product2.Picture__c}/>
+        </div>
+        <div class="lower-third">
+            <h1 class="slds-truncate slds-text-heading_medium">{car.Product2.Manufacturer__c}
+                {car.Product2.Model__c}</h1>
+            <p class="slds-text-body_small div-text-center">{car.Product2.Engine_Type__c} | {car.Product2.Body_Type__c}
+                | {car.Product2.Horsepower__c}KM</p>
+            <div onclick={selectCar} class="div-button-find-car">Check details</div>
+        </div>
+    </section>
+</template>

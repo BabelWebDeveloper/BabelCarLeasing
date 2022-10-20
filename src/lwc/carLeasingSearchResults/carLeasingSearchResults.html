@@ -1,4 +1,7 @@
 <template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </template>
     <template if:true={pricebookEntries.data}>
         <div class="slds-scrollable_y">
             <lightning-layout horizontal-align="center" multiple-rows>

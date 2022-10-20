@@ -7,14 +7,8 @@
                 <a href="/" class="nav-item-style">
                     <p>HOME</p>
                 </a>
-                <a href="/bcl/offer" class="nav-item-style">
-                    <p>OFFER</p>
-                </a>
-                <a href="/bcl/about-us" class="nav-item-style">
-                    <p>ABOUT US</p>
-                </a>
-                <a href="/bcl/contact" class="nav-item-style">
-                    <p>CONTACT</p>
+                <a href="/bcl/search-by-manufacturer" class="nav-item-style">
+                    <p>SEARCH CAR</p>
                 </a>
                 <template if:true={isGuestUser}>
                     <a href="/bcl/login" class="nav-item-style">
@@ -25,6 +19,9 @@
                     </a>
                 </template>
                 <template if:false={isGuestUser}>
+                    <a href="/bcl/orders" class="nav-item-style">
+                        <p>ORDERS</p>
+                    </a>
                     <div class="nav-item-style log-out-style">
                         <p onclick={out}>LOG OUT</p>
                     </div>

@@ -35,9 +35,61 @@
                             <option name="name" value="CarLeasingPublicSiteController" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CL_ContentDistributionService" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CL_ContentDistributionTriggerDispatcher" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CL_ContentDistributionTriggerHandler" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CL_ContentVersionService" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CL_ContentVersionTriggerDispatcher" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CL_ContentVersionTriggerHandler" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="ICL_ContentDistributionTrigger" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="ICL_ContentVersionTrigger" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
                         </list>
                       </option>
                       <option name="name" value="ApexClass" />
+                      <option name="wildcard" value="false" />
+                    </MetadataType>
+                    <MetadataType>
+                      <option name="entries">
+                        <list>
+                          <MetadataEntry>
+                            <option name="name" value="CarLeasingContentDistributionTrigger" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CarLeasingContentVarsionTrigger" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CarLeasingContentVersionTrigger" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                        </list>
+                      </option>
+                      <option name="name" value="ApexTrigger" />
                       <option name="wildcard" value="false" />
                     </MetadataType>
                     <MetadataType>
@@ -68,6 +120,14 @@
                       <option name="entries">
                         <list>
                           <MetadataEntry>
+                            <option name="name" value="carLeasingAddGallery" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="carLeasingAddProduct2" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="carLeasingCarDetails" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
@@ -96,6 +156,10 @@
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
+                            <option name="name" value="carLeasingOrders" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="carLeasingSearchByManufacturer" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
@@ -105,6 +169,10 @@
                           </MetadataEntry>
                           <MetadataEntry>
                             <option name="name" value="carLeasingTile" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="carLeasingTileCart" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                         </list>

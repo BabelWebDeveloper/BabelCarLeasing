@@ -10,7 +10,6 @@ export default class CarLeasingSearchResults extends LightningElement {
 
     @wire(MessageContext)
     messageContext;
-
     searchKey;
 
     @track
@@ -21,14 +20,13 @@ export default class CarLeasingSearchResults extends LightningElement {
     @api
     selectedCarId;
 
-    @track
-    emptyResults = false;
-
     connectedCallback() {
         this.subscribeFromMessageChannel();
+        this.isLoading = true;
     }
 
     subscribeFromMessageChannel() {
+        this.isLoading = true;
         this.subscription = subscribe(
             this.messageContext,
             carLeasingSearchChannel,
@@ -37,7 +35,6 @@ export default class CarLeasingSearchResults extends LightningElement {
     }
 
     handleMessage(message) {
-        this.isLoading = true;
         this.notifyLoading(this.isLoading);
         this.searchKey = message.searchKeyManufacturer;
     }
@@ -46,7 +43,7 @@ export default class CarLeasingSearchResults extends LightningElement {
     wiredCars(result) {
         this.allCars = false;
         this.pricebookEntries = result;
-        this.checkSizeOfResults(result);
+        this.isLoading = false;
     }
 
     @wire(getAllCars)
@@ -54,7 +51,7 @@ export default class CarLeasingSearchResults extends LightningElement {
         if (data) {
             this.allCars = true;
             this.pricebookEntries = data;
-            this.checkSizeOfResults(data);
+            this.isLoading = false;
         }
     }
 
@@ -63,16 +60,6 @@ export default class CarLeasingSearchResults extends LightningElement {
             this.dispatchEvent(new CustomEvent('loading'));
         } else {
             this.dispatchEvent(new CustomEvent('doneloading'));
-        }
-    }
-
-    checkSizeOfResults(result) {
-        if (result.data !== undefined) {
-            if (result.data.length < 1) {
-                this.emptyResults = true;
-            } else {
-                this.emptyResults = false;
-            }
         }
     }
 
