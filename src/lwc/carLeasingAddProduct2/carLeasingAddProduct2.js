@@ -201,6 +201,9 @@ export default class CarLeasingAddProduct2 extends LightningElement {
             .then((result) => {
                 console.log(result);
             })
+            .then(() => {
+                this.isImageModalOpen = false;
+            })
     }
 
     get acceptedFormats() {

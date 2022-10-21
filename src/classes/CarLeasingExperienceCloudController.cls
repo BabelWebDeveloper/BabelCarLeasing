@@ -303,11 +303,13 @@ public without sharing class CarLeasingExperienceCloudController {
 
     @AuraEnabled(cacheable=true)
     public static List<Order> getActiveOrders(String userId) {
-        return [
+                List<Order> orders = [
                 SELECT
                         Id,
                         CreatedById,
                         Status,
+                        CreatedDate,
+                        TotalAmount,
                         (
                                 SELECT
                                         Id,
@@ -325,5 +327,6 @@ public without sharing class CarLeasingExperienceCloudController {
                 WHERE CreatedById = :userId
                 AND Status = 'Activated'
         ];
+        return orders;
     }
 }

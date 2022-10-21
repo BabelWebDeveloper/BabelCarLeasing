@@ -10,12 +10,10 @@
                                 <div class="div-class-orders">
                                     <img class="style-img-orders" src={item.Product2.Picture__c}/>
                                 </div>
-                                <div>
-                                    <h1>{item.Product2.Manufacturer__c}
-                                        {item.Product2.Model__c}</h1>
-                                    <p>{item.Product2.Engine_Type__c} |
-                                        {item.Product2.Body_Type__c}
-                                        | {item.Product2.Horsepower__c}KM</p>
+                                <div class="div-class-order-details">
+                                    <h1>{item.Product2.Manufacturer__c} {item.Product2.Model__c}</h1>
+                                    <p>{label.Quantity} {item.Quantity}</p>
+                                    <p>{label.Totalcost} {item.TotalPrice} {label.EUR}</p>
                                 </div>
                             </div>
                         </template>

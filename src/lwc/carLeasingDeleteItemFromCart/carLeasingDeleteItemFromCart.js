@@ -21,9 +21,9 @@ export default class CarLeasingDeleteItemFromCart extends LightningElement {
             .then(() => {
                 this.dispatchEvent(new CustomEvent('showmessage'));
             })
-            .then(() => {
-                window.location.reload();
-            })
+            // .then(() => {
+            //     window.location.reload();
+            // })
             .catch((error) => {
                 this.error = error;
             });

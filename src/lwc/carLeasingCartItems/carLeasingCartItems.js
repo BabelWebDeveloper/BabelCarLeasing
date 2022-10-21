@@ -124,13 +124,19 @@ export default class CarLeasingCartItems extends LightningElement {
             orderId: this.orderId
         })
             .then(() => {
-                this.orderItems = false;
-            })
-            .then(() => {
-                this.isLoading = false;
-            })
-            .then(() => {
-                window.location.reload();
+                this.showCheckoutMessage()
+                    .then(()=> {
+                        this.orderItems = false;
+                    })
+                    .then(() => {
+                        this.isLoading = false;
+                    })
+                    .then(() => {
+                        window.location.href = "/bcl/";
+                    })
+                    .catch((error) => {
+                        this.error = error;
+                    });
             })
             .catch((error) => {
                 this.error = error;
@@ -141,5 +147,18 @@ export default class CarLeasingCartItems extends LightningElement {
             message: 'Product has been deleted from your cart.',
             theme: 'default'
         })
+            .then(() => {
+                window.location.reload();
+            })
+    }
+
+    async showCheckoutMessage() {
+        await LightningAlert.open({
+            message: 'Thank you. Your order is being prepared.',
+            theme: 'default'
+        })
+            .then(() => {
+                window.location.reload();
+            })
     }
 }

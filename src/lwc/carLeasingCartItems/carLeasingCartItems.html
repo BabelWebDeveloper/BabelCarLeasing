@@ -1,5 +1,5 @@
 <template>
-    <template if:true={showConnectedMessage}>
+    <template if:true={orderItems}>
         <section>
             <div class="slds-scrollable_y div-items">
                 <h2>{label.Cart_items}</h2>
@@ -64,7 +64,7 @@
             </div>
         </section>
     </template>
-    <template if:false={showConnectedMessage}>
+    <template if:false={orderItems}>
         <h2>{label.Your_cart_is_empty}</h2>
     </template>
 </template>

@@ -11,15 +11,22 @@ h1 {
     text-align: center;
 }
 
-p{
+p {
     text-align: center;
 }
 
-.style-img-orders{
-    width:500px;
+.style-img-orders {
+    width: 500px;
 }
-.style-orders{
+
+.style-orders {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
+}
+
+.div-class-order-details {
+    display: flex;
+    flex-direction: column;
     justify-content: space-around;
 }
