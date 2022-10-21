@@ -1,5 +1,5 @@
 <template>
-    <template if:true={orderItems}>
+    <template if:true={showConnectedMessage}>
         <section>
             <div class="slds-scrollable_y div-items">
                 <h2>{label.Cart_items}</h2>
@@ -60,11 +60,10 @@
                 </div>
                 <p class="p-message">{message}</p>
                 <div onclick={checkout} class="div-button-find-car">Checkout</div>
-                <div onclick={showDeleteMessage} class="div-button-find-car">Checkout</div>
             </div>
         </section>
     </template>
-    <template if:false={orderItems}>
+    <template if:false={showConnectedMessage}>
         <h2>{label.Your_cart_is_empty}</h2>
     </template>
 </template>

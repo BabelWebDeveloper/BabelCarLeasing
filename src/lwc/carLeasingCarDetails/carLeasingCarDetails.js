@@ -11,6 +11,7 @@ import Gearbox from '@salesforce/label/c.Gearbox';
 import Engine from '@salesforce/label/c.Engine';
 import Body from '@salesforce/label/c.Body';
 import {ShowToastEvent} from "lightning/platformShowToastEvent";
+import LightningAlert from "lightning/alert";
 
 export default class CarLeasingCarDetails extends LightningElement {
     carId;
@@ -80,6 +81,10 @@ export default class CarLeasingCarDetails extends LightningElement {
             cartItemsNumber: this.cartItemsNumber
         };
         this.sendMessageService(detailsLoad);
+        this.showAddToCartConfirmMessage()
+            .then(() => {
+                window.location.reload();
+            })
     }
 
     sendMessageService(detailsLoad) {
@@ -90,7 +95,14 @@ export default class CarLeasingCarDetails extends LightningElement {
                 title: "Product has been added to caert.",
                 variant: "success"
             }))
-        window.location.reload();
+    }
+
+    async showAddToCartConfirmMessage() {
+        await LightningAlert.open({
+            message: 'Thank you. Product was added to cart.',
+            theme: 'default'
+        })
+            .then(() => {})
     }
 
     getQueryCarId() {

@@ -23,4 +23,7 @@
             </lightning-layout>
         </div>
     </template>
+    <template if:false={activeOrders.data}>
+        <h2>{label.You_haven_t_had_any_orders_yet}</h2>
+    </template>
 </template>

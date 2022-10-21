@@ -66,8 +66,10 @@ public without sharing class CarLeasingExperienceCloudController {
         if (String.isNotEmpty(carNameSearchKey)) {
             query = query.removeEnd(')');
 //            todo jesli trzeba dokleić warunkowe query
-            query += ' AND Name LIKE ' + '\'' + carNameSearchKey + '%\'' + ')';
+            query += ' AND (Product2.Manufacturer__c LIKE ' + '\'' + carNameSearchKey + '%\'';
+            query += ' OR Product2.Model__c LIKE ' + '\'' + carNameSearchKey + '%\'' + '))';
         }
+        System.debug(query);
         List<PriceBookEntry> pricebookEntries = Database.query(query);
         return pricebookEntries;
     }
