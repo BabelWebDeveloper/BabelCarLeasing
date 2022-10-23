@@ -1,6 +1,6 @@
 import {LightningElement, track, wire} from 'lwc';
-import userOrderItems from '@salesforce/apex/CarLeasingExperienceCloudController.getOrderItems';
-import createOrder from '@salesforce/apex/CarLeasingExperienceCloudController.setActiveOrder';
+import userOrderItems from '@salesforce/apex/CarLeasingCartController.getOrderItems';
+import createOrder from '@salesforce/apex/CarLeasingCartController.setActiveOrder';
 import Cart_items from '@salesforce/label/c.Cart_items';
 import Quantity from '@salesforce/label/c.Quantity';
 import Your_cart_is_empty from '@salesforce/label/c.Your_cart_is_empty';
@@ -53,7 +53,6 @@ export default class CarLeasingCartItems extends LightningElement {
 
     @wire(userOrderItems, {orderId: '$orderId'})
     wiredOrderItems(result) {
-        console.log(result.data.length);
         if (result.data.length !== 0){
             this.showConnectedMessage = true;
         } else {

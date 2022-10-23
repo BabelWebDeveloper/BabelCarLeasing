@@ -24,6 +24,14 @@
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
+                            <option name="name" value="CarLeasingCarDetailsController" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CarLeasingCartController" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="CarLeasingExperienceCloudController" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
@@ -32,7 +40,15 @@
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
+                            <option name="name" value="CarLeasingOrdersController" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="CarLeasingPublicSiteController" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CarLeasingSearchController" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>

@@ -1,5 +1,5 @@
 import {LightningElement, wire, track} from 'lwc';
-import findproduct2sByName from '@salesforce/apex/CarLeasingExperienceCloudController.searchCarsByName';
+import findproduct2sByName from '@salesforce/apex/CarLeasingSearchController.searchCarsByName';
 
 export default class ApexWireMethodWithParams extends LightningElement {
     searchKey;

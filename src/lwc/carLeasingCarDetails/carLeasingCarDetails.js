@@ -1,6 +1,6 @@
 import {LightningElement, wire, track} from 'lwc';
-import findCarById from '@salesforce/apex/CarLeasingExperienceCloudController.searchCarsById';
-import listOfGalleryUrl from '@salesforce/apex/CarLeasingExperienceCloudController.getUrlsFromContentDistribution';
+import findCarById from '@salesforce/apex/CarLeasingCarDetailsController.searchCarsById';
+import listOfGalleryUrl from '@salesforce/apex/CarLeasingCarDetailsController.getUrlsFromContentDistribution';
 import {publish, MessageContext} from 'lightning/messageService';
 import sendProductChannel from '@salesforce/messageChannel/carLeasingSendProductChannel__c';
 import Total_cost_of_car from '@salesforce/label/c.Total_cost_of_car';
@@ -57,9 +57,7 @@ export default class CarLeasingCarDetails extends LightningElement {
             productId: this.carId
         })
             .then((result) => {
-                console.log(result);
                 this.listOfGalleryPictures = result;
-                this.listOfGalleryPictures.forEach(file => console.log(file.ContentDownloadUrl));
             })
     }
 
@@ -120,6 +118,8 @@ export default class CarLeasingCarDetails extends LightningElement {
 
     @wire(findCarById, {carId: '$carId'})
     wiredCars(result) {
+        console.log('wiredCars:');
+        console.log(result);
         this.isLoading = true;
         if (result.data !== undefined) {
             this.car = result.data;

@@ -1,10 +1,10 @@
 import {LightningElement, wire, track} from 'lwc';
 import Id from '@salesforce/user/Id';
-import activePricebookId from '@salesforce/apex/CarLeasingExperienceCloudController.getActivePricebook';
-import userOrder from '@salesforce/apex/CarLeasingExperienceCloudController.getUserOrder';
-import userOrderItems from '@salesforce/apex/CarLeasingExperienceCloudController.getOrderItems';
-import userAccountId from '@salesforce/apex/CarLeasingExperienceCloudController.getUserAccountId';
-import createOrderAndOrderItem from '@salesforce/apex/CarLeasingExperienceCloudController.createOrderItem';
+import activePricebookId from '@salesforce/apex/CarLeasingCartController.getActivePricebook';
+import userOrder from '@salesforce/apex/CarLeasingCartController.getUserOrder';
+import userOrderItems from '@salesforce/apex/CarLeasingCartController.getOrderItems';
+import userAccountId from '@salesforce/apex/CarLeasingCartController.getUserAccountId';
+import createOrderAndOrderItem from '@salesforce/apex/CarLeasingCartController.createOrderItem';
 import {subscribe, MessageContext} from 'lightning/messageService';
 import sendProductChannel from '@salesforce/messageChannel/carLeasingSendProductChannel__c';
 import cartUrl from '@salesforce/resourceUrl/clcart';
@@ -79,7 +79,6 @@ export default class CarLeasingCart extends LightningElement {
         this.startFee = message.startFee;
         this.unitPrice = message.unitPrice;
         this.cartItemsNumber = message.cartItemsNumber;
-        console.log(this.cartItemsNumber);
         this.createOrderItem();
     }
 

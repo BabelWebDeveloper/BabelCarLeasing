@@ -42,9 +42,4 @@ export default class CarLeasingNav extends LightningElement {
     out() {
         window.location.href = '/secur/logout.jsp';
     }
-
-
-    // get logoStyle() {
-    //     return `height:50px;background-image:url(${logoUrl})`;
-    // }
 }

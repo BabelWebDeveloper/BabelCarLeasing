@@ -1,6 +1,6 @@
 import {LightningElement, track, wire} from 'lwc';
 import Id from '@salesforce/user/Id';
-import getActiveOrders from '@salesforce/apex/CarLeasingExperienceCloudController.getActiveOrders';
+import getActiveOrders from '@salesforce/apex/CarLeasingOrdersController.getActiveOrders';
 import Created  from '@salesforce/label/c.Created';
 import Totalcost  from '@salesforce/label/c.Totalcost';
 import EUR  from '@salesforce/label/c.EUR';
@@ -22,12 +22,10 @@ export default class CarLeasingOrders extends LightningElement {
 
     connectedCallback() {
         this.userId = Id;
-        console.log(this.userId);
     }
 
     @wire(getActiveOrders,{userId: '$userId'})
     wiredOrders(result){
-        console.log(result);
         this.activeOrders = result;
     }
 }

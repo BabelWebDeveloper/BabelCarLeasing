@@ -1,5 +1,5 @@
 import {api, track, LightningElement, wire} from 'lwc';
-import carDeleteBackend from '@salesforce/apex/CarLeasingExperienceCloudController.deleteOrderItem';
+import carDeleteBackend from '@salesforce/apex/CarLeasingCartController.deleteOrderItem';
 
 export default class CarLeasingDeleteItemFromCart extends LightningElement {
     @api
