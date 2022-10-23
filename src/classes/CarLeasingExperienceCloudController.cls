@@ -1,4 +1,13 @@
 public without sharing class CarLeasingExperienceCloudController {
+    private static String ORDER_STATUS_DRAFT;
+    private static String ORDER_STATUS_ACTIVATED;
+
+    public CarLeasingExperienceCloudController(){
+        CarLeasingExperienceCloudController.ORDER_STATUS_DRAFT = CarLeasingSettingService.ORDER_STATUS_DRAFT;
+        CarLeasingExperienceCloudController.ORDER_STATUS_ACTIVATED = CarLeasingSettingService.ORDER_STATUS_ACTIVATED;
+        System.debug(ORDER_STATUS_DRAFT);
+        System.debug(ORDER_STATUS_ACTIVATED);
+    }
     @AuraEnabled(cacheable=true)
     public static List<PriceBookEntry> getAllCars() {
         List<PricebookEntry> priceBookEntries = [
@@ -20,57 +29,46 @@ public without sharing class CarLeasingExperienceCloudController {
                         Product2.Acceleration__c,
                         Product2.Average_fuel_consumption__c,
                         Product2.The_size_of_the_wheels__c,
-                        Product2Id
+                        Product2Id,
+                        Pricebook2.IsStandard
                 FROM PricebookEntry
-                WHERE Pricebook2Id = :getActivePricebook()
-                AND Product2Id IN (
-                        SELECT Id
-                        FROM Product2
-                        WHERE ProductCode LIKE 'CL%'
-                )
+                WHERE Pricebook2.IsStandard = TRUE
         ];
 
         return priceBookEntries;
     }
     @AuraEnabled(cacheable=true)
     public static List<PriceBookEntry> searchCarsByName(String carNameSearchKey) {
-        String query = 'SELECT\n' +
-                '        Id,\n' +
-                '        UnitPrice,\n' +
-                '        Product2.Manufacturer__c,\n' +
-                '        Product2.Model__c,\n' +
-                '        Product2.Horsepower__c,\n' +
-                '        Product2.Gearbox__c,\n' +
-                '        Product2.Engine_Type__c,\n' +
-                '        Product2.Picture__c,\n' +
-                '        Product2.Body_Type__c,\n' +
-                '        Product2.Year_of_production__c,\n' +
-                '                        Product2.Width__c,\n' +
-                '                        Product2.Height__c,\n' +
-                '                        Product2.Length__c,\n' +
-                '                        Product2.Number_of_seats__c,\n' +
-                '                        Product2.Engine_capacity__c,\n' +
-                '                        Product2.Acceleration__c,\n' +
-                '                        Product2.Average_fuel_consumption__c,\n' +
-                '                    Product2.The_size_of_the_wheels__c,' +
-                '        Product2Id\n' +
-                'FROM PricebookEntry\n' +
-                'WHERE Pricebook2Id = ' + '\'' + getActivePricebook() + '\'' +
-                'AND Product2Id IN (\n' +
-                '        SELECT\n' +
-                '                Id\n' +
-                '        FROM Product2\n' +
-                '        WHERE\n' +
-                '                ProductCode LIKE \'CL%\'\n' +
-                ')';
-        if (String.isNotEmpty(carNameSearchKey)) {
-            query = query.removeEnd(')');
-//            todo jesli trzeba dokleić warunkowe query
-            query += ' AND (Product2.Manufacturer__c LIKE ' + '\'' + carNameSearchKey + '%\'';
-            query += ' OR Product2.Model__c LIKE ' + '\'' + carNameSearchKey + '%\'' + '))';
+        List<PricebookEntry> priceBookEntries = new List<PricebookEntry>();
+        if (!String.isEmpty(carNameSearchKey)) {
+            carNameSearchKey += '%';
+            priceBookEntries = [
+                    SELECT Id, UnitPrice, Product2.Manufacturer__c, Product2.Model__c, Product2.Horsepower__c,
+                            Product2.Gearbox__c, Product2.Engine_Type__c, Product2.Picture__c, Product2.Body_Type__c,
+                            Product2.Year_of_production__c, Product2.Width__c, Product2.Height__c, Product2.Length__c,
+                            Product2.Number_of_seats__c, Product2.Engine_capacity__c, Product2.Acceleration__c,
+                            Product2.Average_fuel_consumption__c, Product2.The_size_of_the_wheels__c, Product2Id,
+                            Pricebook2.IsStandard, Pricebook2.IsActive
+                    FROM PricebookEntry
+                    WHERE Pricebook2.IsStandard = TRUE
+                    AND Product2Id IN (
+                            SELECT Id
+                            FROM Product2
+                            WHERE Product2.Manufacturer__c LIKE :carNameSearchKey
+                            OR Product2.Model__c LIKE :carNameSearchKey)
+            ];
+        } else {
+            priceBookEntries = [
+                    SELECT Id, UnitPrice, Product2.Manufacturer__c, Product2.Model__c, Product2.Horsepower__c,
+                            Product2.Gearbox__c, Product2.Engine_Type__c, Product2.Picture__c, Product2.Body_Type__c,
+                            Product2.Year_of_production__c, Product2.Width__c, Product2.Height__c, Product2.Length__c,
+                            Product2.Number_of_seats__c, Product2.Engine_capacity__c, Product2.Acceleration__c,
+                            Product2.Average_fuel_consumption__c, Product2.The_size_of_the_wheels__c, Product2Id,
+                            Pricebook2.IsStandard, Pricebook2.IsActive
+                    FROM PricebookEntry
+                    WHERE Pricebook2.IsStandard = TRUE
+            ];
         }
-        System.debug(query);
-        List<PriceBookEntry> pricebookEntries = Database.query(query);
         return pricebookEntries;
     }
 
@@ -97,9 +95,11 @@ public without sharing class CarLeasingExperienceCloudController {
                         Product2.Acceleration__c,
                         Product2.Average_fuel_consumption__c,
                         Product2.The_size_of_the_wheels__c,
-                        Product2Id
+                        Product2Id,
+                        Pricebook2.IsActive,
+                        Pricebook2.IsStandard
                 FROM PricebookEntry
-                WHERE Pricebook2Id = :getActivePricebook()
+                WHERE Pricebook2.IsStandard = TRUE
                 AND Product2Id = :carId
         ];
         return pricebookEntry;
@@ -122,11 +122,40 @@ public without sharing class CarLeasingExperienceCloudController {
 
     @AuraEnabled(cacheable=true)
     public static Order getUserOrder(String userId) {
+        String status = ORDER_STATUS_DRAFT;
         Order pb2Standard = [
-                SELECT Id, OwnerId, Status
+                SELECT
+                        Id,
+                        OwnerId,
+                        Status,
+                        (
+                                SELECT
+                                        Product2Id,
+                                        Product2.Manufacturer__c,
+                                        Product2.Model__c,
+                                        Product2.Picture__c,
+                                        Product2.Horsepower__c,
+                                        Product2.Engine_Type__c,
+                                        Product2.Gearbox__c,
+                                        Product2.Body_Type__c,
+                                        Product2.Year_of_production__c,
+                                        Product2.Width__c,
+                                        Product2.Height__c,
+                                        Product2.Length__c,
+                                        Product2.Number_of_seats__c,
+                                        Product2.Engine_capacity__c,
+                                        Product2.Acceleration__c,
+                                        Product2.Average_fuel_consumption__c,
+                                        Product2.The_size_of_the_wheels__c,
+                                        Quantity,
+                                        OrderId,
+                                        Id,
+                                        UnitPrice
+                                FROM OrderItems
+                        )
                 FROM Order
                 WHERE OwnerId = :userId
-                AND Status = 'Draft'
+                AND Status =: CarLeasingSettingService.ORDER_STATUS_DRAFT
         ];
         return pb2Standard;
     }
@@ -138,7 +167,7 @@ public without sharing class CarLeasingExperienceCloudController {
         PriceBook2 pb2Standard = [
                 SELECT Id
                 FROM Pricebook2
-                WHERE IsActive = true
+                WHERE IsActive = TRUE
         ];
         return pb2Standard.Id;
     }
@@ -212,6 +241,7 @@ public without sharing class CarLeasingExperienceCloudController {
 
     @AuraEnabled(cacheable=true)
     public static List<OrderItem> getOrderItems(String orderId) {
+        System.debug('backend work');
         List<OrderItem> orderItems = [
                 SELECT
                         Product2Id,
@@ -238,6 +268,7 @@ public without sharing class CarLeasingExperienceCloudController {
                 FROM OrderItem
                 WHERE OrderId = :orderId
         ];
+        System.debug(orderItems);
         return orderItems;
     }
 
@@ -305,7 +336,7 @@ public without sharing class CarLeasingExperienceCloudController {
 
     @AuraEnabled(cacheable=true)
     public static List<Order> getActiveOrders(String userId) {
-                List<Order> orders = [
+        List<Order> orders = [
                 SELECT
                         Id,
                         CreatedById,

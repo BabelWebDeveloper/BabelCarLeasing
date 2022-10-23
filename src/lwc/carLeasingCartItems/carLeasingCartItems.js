@@ -1,5 +1,11 @@
 import {LightningElement, track, wire} from 'lwc';
-import userOrderItems from '@salesforce/apex/CarLeasingExperienceCloudController.getOrderItems';
+import {
+    subscribe,
+    unsubscribe,
+    APPLICATION_SCOPE,
+    MessageContext
+} from 'lightning/messageService';
+import recordSelected from '@salesforce/messageChannel/carLeasingSendItemsToCartItems__c';
 import createOrder from '@salesforce/apex/CarLeasingExperienceCloudController.setActiveOrder';
 import Cart_items from '@salesforce/label/c.Cart_items';
 import Quantity from '@salesforce/label/c.Quantity';
@@ -10,13 +16,41 @@ import Total_cost from '@salesforce/label/c.Total_cost';
 import LightningAlert from 'lightning/alert';
 
 export default class CarLeasingCartItems extends LightningElement {
+    subscription = null;
+
     @track
     orderId;
     orderItems;
-    totalCost = 0;
     checkoutItems = [];
-    message = '';
     showConnectedMessage = false;
+    totalCost = 0;
+    isLoading;
+
+    @wire(MessageContext)
+    messageContext;
+
+    connectedCallback() {
+        this.isLoading = true;
+        this.subscribeToMessageChannel();
+    }
+
+    subscribeToMessageChannel() {
+        if (!this.subscription) {
+            this.subscription = subscribe(
+                this.messageContext,
+                recordSelected,
+                (message) => this.handleMessage(message),
+                { scope: APPLICATION_SCOPE }
+            );
+        }
+    }
+
+    handleMessage(result) {
+        console.log(result);
+        this.orderItems = result.orderCart.data.OrderItems;
+        this.orderId = result.orderCart.data.Id;
+        this.calculateTotalCost();
+    }
 
     billingStreet = '';
     billingCity = '';
@@ -31,36 +65,6 @@ export default class CarLeasingCartItems extends LightningElement {
         Piece,
         Summary,
         Total_cost
-    }
-
-    connectedCallback() {
-        let record = this.getOrderId();
-        this.orderId = record.recordId;
-    }
-
-    getOrderId() {
-        let params = {};
-        let search = location.search.substring(1);
-
-        if (search) {
-            params = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}', (key, value) => {
-                return key === "" ? value : decodeURIComponent(value)
-            });
-        }
-
-        return params;
-    }
-
-    @wire(userOrderItems, {orderId: '$orderId'})
-    wiredOrderItems(result) {
-        console.log(result.data.length);
-        if (result.data.length !== 0){
-            this.showConnectedMessage = true;
-        } else {
-            this.showConnectedMessage = false;
-        }
-        this.orderItems = result.data;
-        this.calculateTotalCost();
     }
 
     calculateTotalCost() {
@@ -79,6 +83,10 @@ export default class CarLeasingCartItems extends LightningElement {
             this.checkoutItems.push(cartItem);
         }
         this.totalCost = this.totalCost.toFixed(2);
+        if (this.totalCost !== 0){
+            this.showConnectedMessage = true;
+        }
+        this.isLoading = false;
     }
 
     handleBilling() {
@@ -115,6 +123,7 @@ export default class CarLeasingCartItems extends LightningElement {
     }
 
     createActiveOrder(){
+        console.log(this.orderId);
         createOrder({
             billingStreet: this.billingStreet,
             billingCity: this.billingCity,
@@ -132,7 +141,7 @@ export default class CarLeasingCartItems extends LightningElement {
                         this.isLoading = false;
                     })
                     .then(() => {
-                        window.location.href = "/bcl/";
+                        window.location.href = "/bcl/orders";
                     })
                     .catch((error) => {
                         this.error = error;

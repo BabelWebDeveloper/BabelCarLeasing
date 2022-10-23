@@ -36,6 +36,10 @@
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
+                            <option name="name" value="CarLeasingSettingService" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="CL_ContentDistributionService" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
