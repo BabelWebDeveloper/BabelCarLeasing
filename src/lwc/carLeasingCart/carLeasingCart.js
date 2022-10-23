@@ -1,29 +1,25 @@
-import {LightningElement, wire} from 'lwc';
+import {LightningElement, wire, track} from 'lwc';
 import Id from '@salesforce/user/Id';
 import activePricebookId from '@salesforce/apex/CarLeasingExperienceCloudController.getActivePricebook';
 import userOrder from '@salesforce/apex/CarLeasingExperienceCloudController.getUserOrder';
+import userOrderItems from '@salesforce/apex/CarLeasingExperienceCloudController.getOrderItems';
 import userAccountId from '@salesforce/apex/CarLeasingExperienceCloudController.getUserAccountId';
 import createOrderAndOrderItem from '@salesforce/apex/CarLeasingExperienceCloudController.createOrderItem';
-import {
-    publish,
-    subscribe,
-    unsubscribe,
-    APPLICATION_SCOPE,
-    MessageContext
-} from 'lightning/messageService';
+import {subscribe, MessageContext} from 'lightning/messageService';
 import sendProductChannel from '@salesforce/messageChannel/carLeasingSendProductChannel__c';
-import recordSelected from '@salesforce/messageChannel/carLeasingSendItemsToCartItems__c';
 import cartUrl from '@salesforce/resourceUrl/clcart';
 
 
 export default class CarLeasingCart extends LightningElement {
     subscription = null;
 
+    @track
     userId;
     order;
     activePricebook;
     userAccount;
     carId;
+    orderItems;
     orderItemsNumber;
     cartItemsNumber;
     showItemsNumberInCart = false;
@@ -49,25 +45,18 @@ export default class CarLeasingCart extends LightningElement {
             .catch((error) => {
                 this.error = error;
             });
+        activePricebookId()
+            .then((result) => {
+                this.activePricebook = result;
+            })
+            .catch((error) => {
+                this.error = error;
+            });
+
         this.subscribeFromMessageChannel();
     }
 
-    @wire(userAccountId, {userId: '$userId'})
-    wiredPricebook(result) {
-        if (result.data !== undefined) {
-            this.userAccount = result.data;
-        }
-    }
 
-    @wire(userOrder, {userId: '$userId'})
-    wiredOrder(result) {
-        if (result.data !== undefined) {
-            this.order = result.data.Id;
-            const payload = { orderCart: result };
-            console.log('wiredOrder: ' + result.data.Id);
-            publish(this.messageContext, recordSelected, payload);
-        }
-    }
 
     subscribeFromMessageChannel() {
         if (!this.subscription) {
@@ -90,7 +79,22 @@ export default class CarLeasingCart extends LightningElement {
         this.startFee = message.startFee;
         this.unitPrice = message.unitPrice;
         this.cartItemsNumber = message.cartItemsNumber;
+        console.log(this.cartItemsNumber);
         this.createOrderItem();
+    }
+
+    @wire(userOrder, {userId: '$userId'})
+    wiredOrder(result) {
+        if (result.data !== undefined) {
+            this.order = result.data.Id;
+        }
+    }
+
+    @wire(userAccountId, {userId: '$userId'})
+    wiredPricebook(result) {
+        if (result.data !== undefined) {
+            this.userAccount = result.data;
+        }
     }
 
     createOrderItem() {
@@ -114,16 +118,21 @@ export default class CarLeasingCart extends LightningElement {
             });
     }
 
+    @wire(userOrderItems, {orderId: '$order'})
+    wiredOrderItems(result) {
+        if (result.data !== undefined) {
+            this.orderItemsNumber = result.data.length;
+            if (this.orderItemsNumber > 0) {
+                this.showItemsNumberInCart = true;
+            }
+        }
+    }
+
     label = {
         cartUrl
     }
 
-    // showOrderItems(){
-    //     window.location.href = '/bcl/order-items?recordId=' + this.order;
-    // }
-
     showOrderItems(){
-        window.location.href = '/bcl/order-items';
+        window.location.href = '/bcl/order-items?recordId=' + this.order;
     }
-
 }

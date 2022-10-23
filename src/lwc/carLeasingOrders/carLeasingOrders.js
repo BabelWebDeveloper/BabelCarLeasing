@@ -22,15 +22,12 @@ export default class CarLeasingOrders extends LightningElement {
 
     connectedCallback() {
         this.userId = Id;
+        console.log(this.userId);
     }
 
     @wire(getActiveOrders,{userId: '$userId'})
     wiredOrders(result){
+        console.log(result);
         this.activeOrders = result;
-        this.sortResult(result);
-    }
-
-    sortResult(result){
-        result.forEach(order => console.log(order));
     }
 }
