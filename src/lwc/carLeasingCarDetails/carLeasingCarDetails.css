@@ -12,9 +12,6 @@ h2 {
     text-align: center;
     padding: 20px;
 }
-.h2-price-style{
-    font-size: 30px;
-}
 
 section {
     background-color: #FFFFFF;
@@ -32,6 +29,15 @@ section {
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: contain !important;
+}
+
+.profile-img{
+    width: 100%;
+}
+
+.template-img-style{
+    display: flex;
+    flex-direction: column;
 }
 
 .div-carousel-style{

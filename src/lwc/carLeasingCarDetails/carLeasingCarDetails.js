@@ -10,7 +10,6 @@ import Horsepower from '@salesforce/label/c.Horsepower';
 import Gearbox from '@salesforce/label/c.Gearbox';
 import Engine from '@salesforce/label/c.Engine';
 import Body from '@salesforce/label/c.Body';
-import {ShowToastEvent} from "lightning/platformShowToastEvent";
 import LightningAlert from "lightning/alert";
 
 export default class CarLeasingCarDetails extends LightningElement {
@@ -19,6 +18,7 @@ export default class CarLeasingCarDetails extends LightningElement {
     @track
     car;
     unitPrice;
+    discountPrice;
     picture;
     horsepower;
     gearbox;
@@ -39,9 +39,9 @@ export default class CarLeasingCarDetails extends LightningElement {
     fuelConsumption;
     yearOfProduction;
     listOfGalleryPictures;
+    cartItemsNumber = 0;
 
-   @track cartItemsNumber = 0;
-
+    changePriceCss;
     maxStartFee;
     stepOfFee;
     contractPeriod = 24;
@@ -51,6 +51,7 @@ export default class CarLeasingCarDetails extends LightningElement {
     carsQuantity = 1;
 
     connectedCallback() {
+        this.isLoading = true;
         let record = this.getQueryCarId();
         this.carId = record.recordId;
         listOfGalleryUrl({
@@ -64,8 +65,62 @@ export default class CarLeasingCarDetails extends LightningElement {
     @wire(MessageContext)
     messageContext;
 
+    @wire(findCarById, {carId: '$carId'})
+    wiredCars(result) {
+        console.log('przypisywanie - result:')
+        console.log(result);
+        if (result.data !== undefined) {
+            this.car = result.data[0];
+            this.unitPrice = this.car.UnitPrice;
+            this.picture = this.car.Product2.Picture__c;
+            this.horsepower = this.car.Product2.Horsepower__c;
+            this.gearbox = this.car.Product2.Gearbox__c;
+            this.engine = this.car.Product2.Engine_Type__c;
+            this.body = this.car.Product2.Body_Type__c;
+            this.manufacturer = this.car.Product2.Manufacturer__c;
+            this.model = this.car.Product2.Model__c;
+            this.review = this.car.Product2.ReviewLink__c;
+            this.acceleration = this.car.Product2.Acceleration__c;
+            this.maxStartFee = this.car.UnitPrice * 0.3;
+            this.stepOfFee = this.car.UnitPrice * 0.3 * 0.1;
+            this.theSizeOfTheWheels = this.car.Product2.The_size_of_the_wheels__c;
+            this.engineCapacity = this.car.Product2.Engine_capacity__c;
+            this.length = this.car.Product2.Length__c;
+            this.width = this.car.Product2.Width__c;
+            this.height = this.car.Product2.Height__c;
+            this.numberOfSeats = this.car.Product2.Number_of_seats__c;
+            this.fuelConsumption = this.car.Product2.Average_fuel_consumption__c;
+            this.yearOfProduction = this.car.Product2.Year_of_production__c;
+
+            if (result.data[1] !== undefined){
+                if (result.data[0].UnitPrice > result.data[1].UnitPrice){
+                    this.discountPrice = result.data[1].UnitPrice;
+                }
+                else {
+                    this.discountPrice = result.data[0].UnitPrice;
+                }
+                this.calculateLeasing();
+                this.changePriceCss = true;
+            } else {
+                this.calculateLeasing();
+                this.changePriceCss = false;
+            }
+        } else {
+            this.isLoading = false;
+        }
+    }
+
+    get priceClass(){
+        return this.changePriceCss ? 'text-decoration: line-through;color:red;font-size: 20px;' : 'font-size: 30px;';
+    }
+
+    get discountPriceClass(){
+        return this.changePriceCss ? 'font-size: 30px;' : 'visibility: hidden';
+    }
+
     addProductToCart(){
         this.isLoading = true;
+        //todo tutaj niższa cena
         const detailsLoad = {
             carId: this.carId,
             carManufacturer: this.manufacturer,
@@ -78,6 +133,8 @@ export default class CarLeasingCarDetails extends LightningElement {
             unitPrice: this.unitPrice,
             cartItemsNumber: this.cartItemsNumber
         };
+        console.log('wysyłanie - detailsLoad:')
+        console.log(detailsLoad);
         this.sendMessageService(detailsLoad);
         this.showAddToCartConfirmMessage()
             .then(() => {
@@ -88,11 +145,6 @@ export default class CarLeasingCarDetails extends LightningElement {
     sendMessageService(detailsLoad) {
         publish(this.messageContext, sendProductChannel, detailsLoad);
         this.isLoading = false;
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: "Product has been added to caert.",
-                variant: "success"
-            }))
     }
 
     async showAddToCartConfirmMessage() {
@@ -116,38 +168,7 @@ export default class CarLeasingCarDetails extends LightningElement {
         return params;
     }
 
-    @wire(findCarById, {carId: '$carId'})
-    wiredCars(result) {
-        console.log('wiredCars:');
-        console.log(result);
-        this.isLoading = true;
-        if (result.data !== undefined) {
-            this.car = result.data;
-            this.unitPrice = this.car.UnitPrice;
-            this.picture = this.car.Product2.Picture__c;
-            this.horsepower = this.car.Product2.Horsepower__c;
-            this.gearbox = this.car.Product2.Gearbox__c;
-            this.engine = this.car.Product2.Engine_Type__c;
-            this.body = this.car.Product2.Body_Type__c;
-            this.manufacturer = this.car.Product2.Manufacturer__c;
-            this.model = this.car.Product2.Model__c;
-            this.review = this.car.Product2.ReviewLink__c;
-            this.acceleration = this.car.Product2.Acceleration__c;
-            this.maxStartFee = this.car.UnitPrice * 0.3;
-            this.stepOfFee = this.car.UnitPrice * 0.3 * 0.1;
-            this.theSizeOfTheWheels = this.car.Product2.The_size_of_the_wheels__c;
-            this.engineCapacity = this.car.Product2.Engine_capacity__c;
-            this.length = this.car.Product2.Length__c;
-            this.width = this.car.Product2.Width__c;
-            this.height = this.car.Product2.Height__c;
-            this.numberOfSeats = this.car.Product2.Number_of_seats__c;
-            this.fuelConsumption = this.car.Product2.Average_fuel_consumption__c;
-            this.yearOfProduction = this.car.Product2.Year_of_production__c;
-            this.calculateLeasing();
-        } else {
-            this.isLoading = false;
-        }
-    }
+
 
     get carPicture() {
         return `height:50vh;background-image:url(${this.picture})`;

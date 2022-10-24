@@ -16,7 +16,6 @@ export default class CarLeasingAddProduct2 extends LightningElement {
     isImageModalOpen = false;
     newCarId;
 
-    productCode;
     manufacturer;
     model;
     horsepower;
@@ -62,11 +61,6 @@ export default class CarLeasingAddProduct2 extends LightningElement {
         }
     )
     bodyTypePicklist;
-
-    handleProductCode(event) {
-        this.productCode = event.target.value;
-        console.log(this.productCode);
-    }
 
     handleManufacturer(event) {
         this.manufacturer = event.target.value;

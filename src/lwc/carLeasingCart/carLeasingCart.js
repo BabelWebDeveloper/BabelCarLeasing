@@ -1,6 +1,6 @@
 import {LightningElement, wire, track} from 'lwc';
 import Id from '@salesforce/user/Id';
-import activePricebookId from '@salesforce/apex/CarLeasingCartController.getActivePricebook';
+import activePricebookId from '@salesforce/apex/CarLeasingCartController.getStandardPricebook';
 import userOrder from '@salesforce/apex/CarLeasingCartController.getUserOrder';
 import userOrderItems from '@salesforce/apex/CarLeasingCartController.getOrderItems';
 import userAccountId from '@salesforce/apex/CarLeasingCartController.getUserAccountId';
@@ -45,13 +45,6 @@ export default class CarLeasingCart extends LightningElement {
             .catch((error) => {
                 this.error = error;
             });
-        activePricebookId()
-            .then((result) => {
-                this.activePricebook = result;
-            })
-            .catch((error) => {
-                this.error = error;
-            });
 
         this.subscribeFromMessageChannel();
     }
@@ -69,6 +62,8 @@ export default class CarLeasingCart extends LightningElement {
     }
 
     handleMessage(message) {
+        console.log('odebrana wiadomość:')
+        console.log(message)
         this.carId = message.carId;
         this.manufacturer = message.carManufacturer;
         this.model = message.carModel;
@@ -111,6 +106,8 @@ export default class CarLeasingCart extends LightningElement {
             unitPrice: this.unitPrice,
         })
             .then((result) => {
+                console.log('result orderitem:');
+                console.log(result);
             })
             .catch((error) => {
                 this.error = error;

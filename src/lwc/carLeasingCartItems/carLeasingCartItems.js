@@ -17,6 +17,7 @@ export default class CarLeasingCartItems extends LightningElement {
     checkoutItems = [];
     message = '';
     showConnectedMessage = false;
+    isLoading;
 
     billingStreet = '';
     billingCity = '';
@@ -36,6 +37,7 @@ export default class CarLeasingCartItems extends LightningElement {
     connectedCallback() {
         let record = this.getOrderId();
         this.orderId = record.recordId;
+        this.isLoading = true;
     }
 
     getOrderId() {
@@ -78,6 +80,7 @@ export default class CarLeasingCartItems extends LightningElement {
             this.checkoutItems.push(cartItem);
         }
         this.totalCost = this.totalCost.toFixed(2);
+        this.isLoading = false;
     }
 
     handleBilling() {

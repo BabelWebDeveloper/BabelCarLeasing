@@ -6,23 +6,12 @@
     <h1>{manufacturer} {model}</h1>
     <section>
         <div class="div-img-style">
-            <div class="div-carousel-style">
-                <template if:true={listOfGalleryPictures}>
-                    <lightning-carousel disable-auto-scroll>
-                        <template for:each={listOfGalleryPictures} for:item="picture">
-                            <lightning-carousel-image
-                                    class="carousel-style"
-                                    key={listOfGalleryPictures.Id}
-                                    src = {picture.ContentDownloadUrl}>
-                            </lightning-carousel-image>
-                        </template>
-                    </lightning-carousel>
-                </template>
-            </div>
+            <img src={picture} alt="Babel Car Leasing" class="profile-img">
         </div>
         <div class="div-offer-style">
             <div class="div-results-offer">
-                <h2 class="h2-price-style">{unitPrice} EUR</h2>
+                <h2 style={priceClass}>{unitPrice} EUR</h2>
+                <h2 style={discountPriceClass}>{discountPrice} EUR</h2>
                 <h3 class="slds-m-vertical_medium">{label.Monthly_payment} {totalMonthlyPayment}</h3>
                 <form class="slds-m-vertical_medium">
                     <div class="value-button decrease" onclick={decreaseQuantity}>-</div>
@@ -54,6 +43,16 @@
                 </lightning-slider>
             </div>
         </div>
+    </section>
+    <section>
+        <template if:true={listOfGalleryPictures}>
+            <template for:each={listOfGalleryPictures} for:item="picture" class="template-img-style">
+                <div key={listOfGalleryPictures.Id} style="width: 30%; height: 200px; display: flex; justify-content: center; align-items: center">
+                    <img style="background-position: center"
+                         src={picture.ContentDownloadUrl} alt="Babel Car Leasing"/>
+                </div>
+            </template>
+        </template>
     </section>
     <section>
         <div class="div-details-style">

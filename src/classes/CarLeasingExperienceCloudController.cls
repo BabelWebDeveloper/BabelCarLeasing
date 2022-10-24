@@ -68,8 +68,6 @@ public without sharing class CarLeasingExperienceCloudController {
 
     @AuraEnabled(cacheable=true)
     public static User fetchUser() {
-//        todo zmienić na listę
-//        todo formatowanie
         User user = [
                 SELECT Id, Name, SmallPhotoUrl
                 FROM User
