@@ -1,7 +1,4 @@
 <template>
-    <template if:true={isLoading}>
-        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
-    </template>
     <template if:true={activeOrders.data}>
         <div class="slds-scrollable_y">
             <lightning-layout horizontal-align="center" multiple-rows>
@@ -16,7 +13,7 @@
                                 <div class="div-class-order-details">
                                     <h1>{item.Product2.Manufacturer__c} {item.Product2.Model__c}</h1>
                                     <p>{label.Quantity} {item.Quantity}</p>
-                                    <p>{label.Total_cost} {item.TotalPrice} {label.EUR}</p>
+                                    <p>{label.Totalcost} {item.TotalPrice} {label.EUR}</p>
                                 </div>
                             </div>
                         </template>

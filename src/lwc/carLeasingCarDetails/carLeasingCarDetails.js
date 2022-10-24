@@ -39,9 +39,9 @@ export default class CarLeasingCarDetails extends LightningElement {
     fuelConsumption;
     yearOfProduction;
     listOfGalleryPictures;
-    cartItemsNumber = 0;
 
-    changePriceCss;
+   @track cartItemsNumber = 0;
+
     maxStartFee;
     stepOfFee;
     contractPeriod = 24;
@@ -51,7 +51,6 @@ export default class CarLeasingCarDetails extends LightningElement {
     carsQuantity = 1;
 
     connectedCallback() {
-        this.isLoading = true;
         let record = this.getQueryCarId();
         this.carId = record.recordId;
         listOfGalleryUrl({
@@ -69,6 +68,7 @@ export default class CarLeasingCarDetails extends LightningElement {
     wiredCars(result) {
         console.log('przypisywanie - result:')
         console.log(result);
+        this.isLoading = true;
         if (result.data !== undefined) {
             this.car = result.data[0];
             this.unitPrice = this.car.UnitPrice;
@@ -93,29 +93,19 @@ export default class CarLeasingCarDetails extends LightningElement {
             this.yearOfProduction = this.car.Product2.Year_of_production__c;
 
             if (result.data[1] !== undefined){
-                if (result.data[0].UnitPrice > result.data[1].UnitPrice){
-                    this.discountPrice = result.data[1].UnitPrice;
-                }
-                else {
-                    this.discountPrice = result.data[0].UnitPrice;
-                }
-                this.calculateLeasing();
-                this.changePriceCss = true;
-            } else {
-                this.calculateLeasing();
-                this.changePriceCss = false;
+                console.log(result.data[1].UnitPrice);
             }
+            
+            // if (result.data[0].UnitPrice > result.data[1].UnitPrice){
+            //     this.discountPrice = result.data[1].UnitPrice;
+            // }
+            // else {
+            //     this.discountPrice = result.data[0].UnitPrice;
+            // }
+            this.calculateLeasing();
         } else {
             this.isLoading = false;
         }
-    }
-
-    get priceClass(){
-        return this.changePriceCss ? 'text-decoration: line-through;color:red;font-size: 20px;' : 'font-size: 30px;';
-    }
-
-    get discountPriceClass(){
-        return this.changePriceCss ? 'font-size: 30px;' : 'visibility: hidden';
     }
 
     addProductToCart(){
@@ -185,6 +175,8 @@ export default class CarLeasingCarDetails extends LightningElement {
     }
 
     calculateLeasing() {
+        // let calculatePrice;
+        // if (discount)
         this.totalMonthlyPayment = ((
                         (this.monInt +
                             (this.monInt / (Math.pow((1 + this.monInt), this.contractPeriod) - 1))
