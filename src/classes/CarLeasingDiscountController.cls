@@ -33,10 +33,21 @@ public without sharing class CarLeasingDiscountController {
     @AuraEnabled
     public static List<Product2> getAllProducts() {
         List<Product2> priceBookEntries = [
-                SELECT Id, Model__c, Manufacturer__c, (SELECT Id, UnitPrice FROM PricebookEntries)
+                SELECT Id, Model__c, Manufacturer__c, (SELECT Pricebook2.Name FROM PricebookEntries)
                 FROM Product2
         ];
 
         return priceBookEntries;
+    }
+
+    @AuraEnabled
+    public static Pricebook2 AssignPricebookToProduct(List<String> productIds, Pricebook2 discountId){
+//- wybieramy pricebook oraz product
+//- jeśli wybrany pricebook jest standardowy wtedy usuwamy pozostałe pricebookEntry dla tego produktu
+//- jeśli nie jest:
+//	- dodaje się nowy pricebookEntry
+//	- Trigger before insert na pricebookEntry który wyszuka wszystkie pricebookiEntry powiązane z danym produktem
+//	i wyłączy wszystkie pricebookiEntry które pochodzą od tych pricebooków które nie są standardowe
+        return discountId;
     }
 }

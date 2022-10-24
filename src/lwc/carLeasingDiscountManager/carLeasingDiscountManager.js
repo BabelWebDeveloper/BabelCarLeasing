@@ -1,14 +1,16 @@
 import {api, LightningElement, track} from 'lwc';
-import createDiscount from '@salesforce/apex/CarLeasingDiscountController.CreatePricebook'
-import getAllPriceBooks from '@salesforce/apex/CarLeasingDiscountController.GetAllPriceBooks'
-import getAllProducts from '@salesforce/apex/CarLeasingDiscountController.getAllProducts'
+import createDiscount from '@salesforce/apex/CarLeasingDiscountController.CreatePricebook';
+import getAllPriceBooks from '@salesforce/apex/CarLeasingDiscountController.GetAllPriceBooks';
+import getAllProducts from '@salesforce/apex/CarLeasingDiscountController.getAllProducts';
+import getAssignPricebookToProduct from '@salesforce/apex/CarLeasingDiscountController.AssignPricebookToProduct';
 
 const columns = [
-    { label: 'PriceBook Name', fieldName: 'Name' },
+    {label: 'PriceBook Name', fieldName: 'Name'},
 ];
 
 const productColumns = [
-    { label: 'Model', fieldName: 'Model__c'}
+    {label: 'Manufacturer', fieldName: 'Manufacturer__c'},
+    {label: 'Model', fieldName: 'Model__c'},
 ]
 
 export default class CarLeasingDiscountManager extends LightningElement {
@@ -25,14 +27,15 @@ export default class CarLeasingDiscountManager extends LightningElement {
     openPricebookModal() {
         this.isNewPricebookModalOpen = true;
     }
+
     closePricebookModal() {
         this.isNewPricebookModalOpen = false;
     }
 
     get options() {
         return [
-            { label: 'Percent', value: 'Percent' },
-            { label: 'Currency', value: 'Currency' },
+            {label: 'Percent', value: 'Percent'},
+            {label: 'Currency', value: 'Currency'},
         ];
     }
 
@@ -91,7 +94,7 @@ export default class CarLeasingDiscountManager extends LightningElement {
             })
     }
 
-    getUpdatedListOfPriceBooks(){
+    getUpdatedListOfPriceBooks() {
         getAllPriceBooks()
             .then((result) => {
                 this.priceBooks = result;
@@ -102,7 +105,7 @@ export default class CarLeasingDiscountManager extends LightningElement {
             })
     }
 
-    assignAllProducts(){
+    assignAllProducts() {
         getAllProducts()
             .then(results => {
                 this.products = results;
@@ -115,23 +118,37 @@ export default class CarLeasingDiscountManager extends LightningElement {
     getSelectedDiscount(event) {
         const selectedRows = event.detail.selectedRows;
         for (let i = 0; i < selectedRows.length; i++) {
-            console.log(selectedRows[i].Id);
-            this.selectedDiscountId = selectedRows[i].Id;
+            this.selectedDiscountId = selectedRows[i];
         }
+    }
+
+    selectedProductIdsProxy = [];
+
+    getSelectedName(event) {
+        let currentRows = event.detail.selectedRows;
+        if (this.selectedProductIdsProxy.length > 0) {
+            let selectedIds = currentRows.map(row => row.id);
+            let unselectedRows = this.selectedProductIdsProxy.filter(row => !selectedIds.includes(row.id));
+        }
+        this.selectedProductIdsProxy = currentRows;
+        this.fillSelectedProductIds();
     }
 
     selectedProductIds = [];
 
-    getSelectedName(event) {
-        let currentRows = event.detail.selectedRows;
-        if (this.selectedProductIds.length > 0) {
-            let selectedIds = currentRows.map(row => row.id);
-            let unselectedRows = this.selectedProductIds.filter(row => !selectedIds.includes(row.id));
-            console.log(unselectedRows);
-        }
-        this.selectedProductIds = currentRows;
-        this.selectedProductIds.forEach(row => {
-            console.log(row);
+    fillSelectedProductIds() {
+        this.selectedProductIdsProxy.forEach(product => {
+            this.selectedProductIds.push(product.Id);
         })
+    }
+
+    assignPricebookToProduct() {
+        getAssignPricebookToProduct({
+            productIds: this.selectedProductIds,
+            discountId: this.selectedDiscountId
+        })
+            .then(result => {
+                console.log(result)
+            })
     }
 }

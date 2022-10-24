@@ -3,19 +3,24 @@
     <p></p>
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="slds-text-heading_small">Discount Management</div>
-            </div>
             <div class="panel-body row">
-                <div class="col-sm-6 col-xs-12">
+                <div class="col-sm-6 col-xs-12 slds-box slds-theme_shade">
                     <lightning-button variant="brand"
                                       label="New Discount"
                                       title="New Discount"
                                       onclick={openPricebookModal}
                                       class="slds-m-left_x-small">
                     </lightning-button>
-                    <button class="btn">Remove Selected</button>
-                    <button class="btn">Change Date Range</button>
+                    <lightning-button variant="brand"
+                                      label="Remove Selected"
+                                      title="Remove Selected"
+                                      class="slds-m-left_x-small">
+                    </lightning-button>
+                    <lightning-button variant="brand"
+                                      label="Change Date Range"
+                                      title="Change Date Range"
+                                      class="slds-m-left_x-small">
+                    </lightning-button>
                 </div>
             </div>
         </div>
@@ -100,7 +105,7 @@
             <div class="slds-backdrop slds-backdrop_open"></div>
         </template>
 
-        <lightning-card title="Product List:">
+        <lightning-card title="Product List:" class="">
             <div class="slds-m-around_medium">
                 <template if:true={products}>
                     <lightning-datatable
@@ -111,30 +116,12 @@
                     </lightning-datatable>
                 </template>
             </div>
+            <lightning-button variant="brand"
+                              label="Set New Pricebook"
+                              title="Set New Pricebook"
+                              class="slds-m-around_medium"
+                              onclick={assignPricebookToProduct}>
+            </lightning-button>
         </lightning-card>
-
-<!--        <template if:true={products}>-->
-<!--            <table class="slds-table slds-table_cell-buffer slds-table_bordered"-->
-<!--                   aria-labelledby="element-with-table-label other-element-with-table-label">-->
-<!--                <thead>-->
-<!--                <tr class="slds-line-height_reset">-->
-<!--                    <th class="" scope="col">-->
-<!--                        <div class="slds-truncate" title="Product Name">Product Name</div>-->
-<!--                    </th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <template for:each={products} for:item="product">-->
-<!--                    <tr class="slds-hint-parent slds-text-link_reset" key={product.Product2.Id}>-->
-<!--                        <td data-label="Discount Name">S-->
-<!--                            <div data-record-id={product.Product2.Id} onclick={handleProduct}-->
-<!--                                 class="slds-truncate">{product.Product2.Manufacturer__c} {product.Product2.Model__c}-->
-<!--                            S</div>-->
-<!--                        </td>S-->
-<!--                    </tr>-->
-<!--                </template>-->
-<!--                </tbody>-->
-<!--            </table>-->
-<!--        </template>-->
     </div>
 </template>

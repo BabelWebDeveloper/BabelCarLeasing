@@ -39,8 +39,8 @@ export default class CarLeasingCarDetails extends LightningElement {
     fuelConsumption;
     yearOfProduction;
     listOfGalleryPictures;
-
-   @track cartItemsNumber = 0;
+    cartItemsNumber = 0;
+    changePriceCss;
 
     maxStartFee;
     stepOfFee;
@@ -69,7 +69,6 @@ export default class CarLeasingCarDetails extends LightningElement {
         this.isLoading = true;
         if (result.data !== undefined) {
             this.car = result.data[0];
-            this.unitPrice = this.car.UnitPrice;
             this.picture = this.car.Product2.Picture__c;
             this.horsepower = this.car.Product2.Horsepower__c;
             this.gearbox = this.car.Product2.Gearbox__c;
@@ -91,19 +90,31 @@ export default class CarLeasingCarDetails extends LightningElement {
             this.yearOfProduction = this.car.Product2.Year_of_production__c;
 
             if (result.data[1] !== undefined){
-                console.log(result.data[1].UnitPrice);
+                if (result.data[1].UnitPrice > result.data[0].UnitPrice) {
+                    this.unitPrice = result.data[1].UnitPrice;
+                    this.discountPrice = result.data[0].UnitPrice;
+                }
+                else {
+                    this.unitPrice = result.data[0].UnitPrice;
+                    this.discountPrice = result.data[1].UnitPrice;
+                }
+                this.changePriceCss = true;
             }
-            
-            // if (result.data[0].UnitPrice > result.data[1].UnitPrice){
-            //     this.discountPrice = result.data[1].UnitPrice;
-            // }
-            // else {
-            //     this.discountPrice = result.data[0].UnitPrice;
-            // }
+            else {
+                this.unitPrice = result.data[0].UnitPrice;
+            }
             this.calculateLeasing();
         } else {
             this.isLoading = false;
         }
+    }
+
+    get priceClass(){
+        return this.changePriceCss ? 'text-decoration: line-through;color:red;font-size: 20px;' : 'font-size: 30px;';
+    }
+
+    get discountPriceClass(){
+        return this.changePriceCss ? 'font-size: 30px;' : 'visibility: hidden';
     }
 
     addProductToCart(){
@@ -155,8 +166,6 @@ export default class CarLeasingCarDetails extends LightningElement {
 
         return params;
     }
-
-
 
     get carPicture() {
         return `height:50vh;background-image:url(${this.picture})`;
