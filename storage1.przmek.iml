@@ -32,6 +32,10 @@
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
+                            <option name="name" value="CarLeasingDiscountController" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="CarLeasingExperienceCloudController" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
@@ -53,6 +57,10 @@
                           </MetadataEntry>
                           <MetadataEntry>
                             <option name="name" value="CarLeasingSettingService" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="CarLeasingWrapper" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
@@ -161,6 +169,14 @@
                           </MetadataEntry>
                           <MetadataEntry>
                             <option name="name" value="carLeasingDeleteItemFromCart" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="carLeasingDiscountManager" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="carLeasingDiscountTile" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>

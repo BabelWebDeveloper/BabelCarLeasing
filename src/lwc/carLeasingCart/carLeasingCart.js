@@ -86,6 +86,8 @@ export default class CarLeasingCart extends LightningElement {
 
     @wire(userAccountId, {userId: '$userId'})
     wiredPricebook(result) {
+        console.log('wiredPricebook');
+        console.log(result);
         if (result.data !== undefined) {
             this.userAccount = result.data;
         }

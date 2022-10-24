@@ -10,6 +10,7 @@ public without sharing class CarLeasingOrdersController {
                 WHERE CreatedById = :userId
                 AND Status =: CarLeasingSettingService.ORDER_STATUS_ACTIVATED
         ];
+
         return orders;
     }
 }

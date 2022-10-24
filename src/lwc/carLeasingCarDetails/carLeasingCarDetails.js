@@ -66,8 +66,6 @@ export default class CarLeasingCarDetails extends LightningElement {
 
     @wire(findCarById, {carId: '$carId'})
     wiredCars(result) {
-        console.log('przypisywanie - result:')
-        console.log(result);
         this.isLoading = true;
         if (result.data !== undefined) {
             this.car = result.data[0];
