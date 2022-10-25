@@ -26,4 +26,27 @@ public without sharing class CarLeasingCarDetailsController {
         ];
         return contentDistributions;
     }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Comment__c> getAllComments(String product2Id) {
+        return [
+                SELECT
+                        Id, CommentText__c, Rating__c, Product__c, CreatedById
+                FROM Comment__c
+                WHERE Product__c = :product2Id
+        ];
+    }
+
+    @AuraEnabled
+    public static Comment__c createComment(String product2Id, Integer rate, String commentText) {
+        Comment__c comment = new Comment__c();
+        comment.Product__c = product2Id;
+        comment.Rating__c = rate;
+        comment.CommentText__c = commentText;
+
+        insert comment;
+        return comment;
+    }
+
+
 }

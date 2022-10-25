@@ -53,13 +53,15 @@ export default class CarLeasingCartItems extends LightningElement {
 
     @wire(userOrderItems, {orderId: '$orderId'})
     wiredOrderItems(result) {
-        if (result.data.length !== 0){
-            this.showConnectedMessage = true;
-        } else {
-            this.showConnectedMessage = false;
+        if (result.data){
+            if (result.data.length !== 0){
+                this.showConnectedMessage = true;
+            } else {
+                this.showConnectedMessage = false;
+            }
+            this.orderItems = result.data;
+            this.calculateTotalCost();
         }
-        this.orderItems = result.data;
-        this.calculateTotalCost();
     }
 
     calculateTotalCost() {

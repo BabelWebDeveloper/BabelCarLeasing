@@ -71,6 +71,9 @@ export default class CarLeasingDiscountManager extends LightningElement {
                 this.getUpdatedListOfPriceBooks();
             })
             .then(() => {
+                window.location.reload();
+            })
+            .then(() => {
                 this.isNewPricebookModalOpen = false;
             })
             .catch(error => {
@@ -109,7 +112,6 @@ export default class CarLeasingDiscountManager extends LightningElement {
         getAllProducts()
             .then(results => {
                 this.products = results;
-                console.log(this.products);
             })
     }
 

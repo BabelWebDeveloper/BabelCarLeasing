@@ -16,6 +16,7 @@ export default class CarLeasingSearchResults extends LightningElement {
     pricebookEntries;
     allCars = true;
     isLoading = false;
+    resultLength = false;
 
     @api
     selectedCarId;
@@ -41,6 +42,15 @@ export default class CarLeasingSearchResults extends LightningElement {
 
     @wire(findCarsByName, {carNameSearchKey: '$searchKey'})
     wiredCars(result) {
+        if (result.data){
+            if (result.data.length === 0){
+                this.resultLength = true;
+            }
+            else {
+                this.resultLength = false;
+            }
+        }
+
         this.allCars = false;
         this.pricebookEntries = result;
         this.isLoading = false;

@@ -64,91 +64,74 @@ export default class CarLeasingAddProduct2 extends LightningElement {
 
     handleManufacturer(event) {
         this.manufacturer = event.target.value;
-        console.log(this.manufacturer);
     }
 
     handleModel(event) {
         this.model = event.target.value;
-        console.log(this.model);
     }
 
     handleHorsepower(event) {
         this.horsepower = event.target.value;
-        console.log(this.horsepower);
     }
 
     handleProductionYear(event) {
         this.productionYear = event.target.value;
-        console.log(this.productionYear);
     }
 
     handleReview(event) {
         this.review = event.target.value;
-        console.log(this.review);
     }
 
     handlePrice(event) {
         this.price = event.target.value;
-        console.log(this.price);
     }
 
     handleNumberOfSeats(event) {
-        this.numberOfSeats = event.target.value;
-        console.log(this.numberOfSeats)
+        this.numberOfSeats = event.target.value
     }
 
     handleAcceleration(event) {
-        this.acceleration = event.target.value;
-        console.log(this.acceleration)
+        this.acceleration = event.target.value
     }
 
     handleAverageFuelConsumption(event) {
-        this.averageFuelConsumption = event.target.value;
-        console.log(this.averageFuelConsumption)
+        this.averageFuelConsumption = event.target.value
     }
 
     handleEngineCapacity(event) {
-        this.engineCapacity = event.target.value;
-        console.log(this.engineCapacity)
+        this.engineCapacity = event.target.value
     }
 
     handleHeight(event) {
         this.height = event.target.value;
-        console.log(this.height)
     }
 
     handleWidth(event) {
         this.width = event.target.value;
-        console.log(this.width)
     }
 
     handleLength(event) {
         this.length = event.target.value;
-        console.log(this.length)
     }
 
     handleTheSizeOfTheWheels(event) {
         this.theSizeOfTheWheels = event.target.value;
-        console.log(this.theSizeOfTheWheels)
     }
 
     handleEngineType(event) {
         this.engineType = event.target.value;
-        console.log(this.engineType)
     }
 
     handleGearboxType(event) {
         this.gearbox = event.target.value;
-        console.log(this.gearbox)
     }
 
     handleBodyType(event) {
         this.bodyType = event.target.value;
-        console.log(this.bodyType)
     }
 
     saveCar() {
-        saveCar({
+        const wrapper = {
             pictureUrl: this.pictureUrl,
             manufacturer: this.manufacturer,
             model: this.model,
@@ -156,20 +139,21 @@ export default class CarLeasingAddProduct2 extends LightningElement {
             productionYear: this.productionYear,
             review: this.review,
             price: this.price,
+            bodyType: this.bodyType,
+            gearbox: this.gearbox,
+            engineType: this.engineType,
             numberOfSeats: this.numberOfSeats,
             acceleration: this.acceleration,
             averageFuelConsumption: this.averageFuelConsumption,
             engineCapacity: this.engineCapacity,
-            height: this.height,
-            width: this.width,
-            length: this.length,
-            theSizeOfTheWheels: this.theSizeOfTheWheels,
-            bodyType: this.bodyType,
-            gearbox: this.gearbox,
-            engineType: this.engineType
-        })
+            carHeight: this.height,
+            carWidth: this.width,
+            carLength: this.length,
+            theSizeOfTheWheels: this.theSizeOfTheWheels
+        }
+        console.log(wrapper);
+        saveCar({carWrapper: wrapper})
             .then((result) => {
-                console.log(result);
                 this.newCarId = result;
             })
             .then(() => {
@@ -185,16 +169,10 @@ export default class CarLeasingAddProduct2 extends LightningElement {
         this.isImageModalOpen = false;
     }
     assignPictureToCar() {
-        console.log(this.newCarId);
-        console.log(this.contentDocumentIds);
-        this.contentDocumentIds.forEach(file => console.log(file));
         updateContentVersion({
             productId: this.newCarId,
             contentDocumentIds: this.contentDocumentIds
         })
-            .then((result) => {
-                console.log(result);
-            })
             .then(() => {
                 this.isImageModalOpen = false;
             })
@@ -237,9 +215,6 @@ export default class CarLeasingAddProduct2 extends LightningElement {
         })
             .then((result) => {
                 this.pictureUrl = result;
-            })
-            .then(() => {
-                console.log(this.pictureUrl);
             })
     }
 }

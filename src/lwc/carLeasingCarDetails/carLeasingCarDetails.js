@@ -67,45 +67,47 @@ export default class CarLeasingCarDetails extends LightningElement {
     @wire(findCarById, {carId: '$carId'})
     wiredCars(result) {
         this.isLoading = true;
-        if (result.data !== undefined) {
-            this.car = result.data[0];
-            this.picture = this.car.Product2.Picture__c;
-            this.horsepower = this.car.Product2.Horsepower__c;
-            this.gearbox = this.car.Product2.Gearbox__c;
-            this.engine = this.car.Product2.Engine_Type__c;
-            this.body = this.car.Product2.Body_Type__c;
-            this.manufacturer = this.car.Product2.Manufacturer__c;
-            this.model = this.car.Product2.Model__c;
-            this.review = this.car.Product2.ReviewLink__c;
-            this.acceleration = this.car.Product2.Acceleration__c;
-            this.maxStartFee = this.car.UnitPrice * 0.3;
-            this.stepOfFee = this.car.UnitPrice * 0.3 * 0.1;
-            this.theSizeOfTheWheels = this.car.Product2.The_size_of_the_wheels__c;
-            this.engineCapacity = this.car.Product2.Engine_capacity__c;
-            this.length = this.car.Product2.Length__c;
-            this.width = this.car.Product2.Width__c;
-            this.height = this.car.Product2.Height__c;
-            this.numberOfSeats = this.car.Product2.Number_of_seats__c;
-            this.fuelConsumption = this.car.Product2.Average_fuel_consumption__c;
-            this.yearOfProduction = this.car.Product2.Year_of_production__c;
+        if (result.data){
+            if (result.data !== undefined) {
+                this.car = result.data[0];
+                this.picture = this.car.Product2.Picture__c;
+                this.horsepower = this.car.Product2.Horsepower__c;
+                this.gearbox = this.car.Product2.Gearbox__c;
+                this.engine = this.car.Product2.Engine_Type__c;
+                this.body = this.car.Product2.Body_Type__c;
+                this.manufacturer = this.car.Product2.Manufacturer__c;
+                this.model = this.car.Product2.Model__c;
+                this.review = this.car.Product2.ReviewLink__c;
+                this.acceleration = this.car.Product2.Acceleration__c;
+                this.maxStartFee = this.car.UnitPrice * 0.3;
+                this.stepOfFee = this.car.UnitPrice * 0.3 * 0.1;
+                this.theSizeOfTheWheels = this.car.Product2.The_size_of_the_wheels__c;
+                this.engineCapacity = this.car.Product2.Engine_capacity__c;
+                this.length = this.car.Product2.Length__c;
+                this.width = this.car.Product2.Width__c;
+                this.height = this.car.Product2.Height__c;
+                this.numberOfSeats = this.car.Product2.Number_of_seats__c;
+                this.fuelConsumption = this.car.Product2.Average_fuel_consumption__c;
+                this.yearOfProduction = this.car.Product2.Year_of_production__c;
 
-            if (result.data[1] !== undefined){
-                if (result.data[1].UnitPrice > result.data[0].UnitPrice) {
-                    this.unitPrice = result.data[1].UnitPrice;
-                    this.discountPrice = result.data[0].UnitPrice;
+                if (result.data[1] !== undefined){
+                    if (result.data[1].UnitPrice > result.data[0].UnitPrice) {
+                        this.unitPrice = result.data[1].UnitPrice;
+                        this.discountPrice = result.data[0].UnitPrice;
+                    }
+                    else {
+                        this.unitPrice = result.data[0].UnitPrice;
+                        this.discountPrice = result.data[1].UnitPrice;
+                    }
+                    this.changePriceCss = true;
                 }
                 else {
                     this.unitPrice = result.data[0].UnitPrice;
-                    this.discountPrice = result.data[1].UnitPrice;
                 }
-                this.changePriceCss = true;
+                this.calculateLeasing();
+            } else {
+                this.isLoading = false;
             }
-            else {
-                this.unitPrice = result.data[0].UnitPrice;
-            }
-            this.calculateLeasing();
-        } else {
-            this.isLoading = false;
         }
     }
 
@@ -119,7 +121,12 @@ export default class CarLeasingCarDetails extends LightningElement {
 
     addProductToCart(){
         this.isLoading = true;
-        //todo tutaj niższa cena
+        let finalPrice;
+        if (this.discountPrice !== undefined){
+            finalPrice = this.discountPrice;
+        } else {
+            finalPrice = this.unitPrice;
+        }
         const detailsLoad = {
             carId: this.carId,
             carManufacturer: this.manufacturer,
@@ -129,11 +136,9 @@ export default class CarLeasingCarDetails extends LightningElement {
             carsQuantity: this.carsQuantity,
             contractPeriod: this.contractPeriod,
             startFee: this.startFee,
-            unitPrice: this.unitPrice,
+            unitPrice: finalPrice,
             cartItemsNumber: this.cartItemsNumber
         };
-        console.log('wysyłanie - detailsLoad:')
-        console.log(detailsLoad);
         this.sendMessageService(detailsLoad);
         this.showAddToCartConfirmMessage()
             .then(() => {
@@ -182,8 +187,6 @@ export default class CarLeasingCarDetails extends LightningElement {
     }
 
     calculateLeasing() {
-        // let calculatePrice;
-        // if (discount)
         this.totalMonthlyPayment = ((
                         (this.monInt +
                             (this.monInt / (Math.pow((1 + this.monInt), this.contractPeriod) - 1))
@@ -215,4 +218,3 @@ export default class CarLeasingCarDetails extends LightningElement {
         Body
     }
 }
-

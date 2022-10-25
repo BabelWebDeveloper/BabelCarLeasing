@@ -62,8 +62,6 @@ export default class CarLeasingCart extends LightningElement {
     }
 
     handleMessage(message) {
-        console.log('odebrana wiadomość:')
-        console.log(message)
         this.carId = message.carId;
         this.manufacturer = message.carManufacturer;
         this.model = message.carModel;
@@ -79,17 +77,19 @@ export default class CarLeasingCart extends LightningElement {
 
     @wire(userOrder, {userId: '$userId'})
     wiredOrder(result) {
-        if (result.data !== undefined) {
-            this.order = result.data.Id;
+        if (result.data){
+            if (result.data !== undefined) {
+                this.order = result.data.Id;
+            }
         }
     }
 
     @wire(userAccountId, {userId: '$userId'})
     wiredPricebook(result) {
-        console.log('wiredPricebook');
-        console.log(result);
-        if (result.data !== undefined) {
-            this.userAccount = result.data;
+        if (result.data){
+            if (result.data !== undefined) {
+                this.userAccount = result.data;
+            }
         }
     }
 
@@ -107,10 +107,7 @@ export default class CarLeasingCart extends LightningElement {
             userAccountId: this.userAccount,
             unitPrice: this.unitPrice,
         })
-            .then((result) => {
-                console.log('result orderitem:');
-                console.log(result);
-            })
+            .then((result) => {})
             .catch((error) => {
                 this.error = error;
             });
@@ -118,10 +115,12 @@ export default class CarLeasingCart extends LightningElement {
 
     @wire(userOrderItems, {orderId: '$order'})
     wiredOrderItems(result) {
-        if (result.data !== undefined) {
-            this.orderItemsNumber = result.data.length;
-            if (this.orderItemsNumber > 0) {
-                this.showItemsNumberInCart = true;
+        if (result.data){
+            if (result.data !== undefined) {
+                this.orderItemsNumber = result.data.length;
+                if (this.orderItemsNumber > 0) {
+                    this.showItemsNumberInCart = true;
+                }
             }
         }
     }

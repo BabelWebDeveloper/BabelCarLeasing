@@ -15,10 +15,11 @@
                 <h3 class="slds-m-vertical_medium">{label.Monthly_payment} {totalMonthlyPayment}</h3>
                 <form class="slds-m-vertical_medium">
                     <div class="value-button decrease" onclick={decreaseQuantity}>-</div>
-                    <input class="input-style" min="1" type="number" id="number" value={carsQuantity} />
+                    <input class="input-style" min="1" type="number" id="number" value={carsQuantity}/>
                     <div class="value-button increase" onclick={increaseQuantity}>+</div>
                 </form>
-                <div class="slds-m-vertical_medium div-button-find-car" onclick={addProductToCart}>{label.Add_to_card}</div>
+                <div class="slds-m-vertical_medium div-button-find-car" onclick={addProductToCart}>{label.Add_to_card}
+                </div>
             </div>
             <div class="div-set-offer">
                 <lightning-slider
@@ -44,11 +45,11 @@
             </div>
         </div>
     </section>
-    <section>
+    <section class="section-gallery-style">
         <template if:true={listOfGalleryPictures}>
             <template for:each={listOfGalleryPictures} for:item="picture" class="template-img-style">
                 <div key={listOfGalleryPictures.Id} style="width: 30%; height: 200px; display: flex; justify-content: center; align-items: center">
-                    <img style="background-position: center"
+                    <img class="img-gallery-style"
                          src={picture.ContentDownloadUrl} alt="Babel Car Leasing"/>
                 </div>
             </template>
@@ -60,36 +61,36 @@
             <div class="div-wrap">
                 <table>
                     <thead>
-                        <tr>
-                            <th scope="col">{label.Horsepower}</th>
-                            <th scope="col">{label.Gearbox}</th>
-                            <th scope="col">{label.Engine}</th>
-                            <th scope="col">Acceleration</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">{label.Horsepower}</th>
+                        <th scope="col">{label.Gearbox}</th>
+                        <th scope="col">{label.Engine}</th>
+                        <th scope="col">Acceleration</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td data-label="Horsepower">{horsepower}</td>
-                            <td data-label="Gearbox">{gearbox}</td>
-                            <td data-label="Engine">{engine}</td>
-                            <td data-label="Acceleration">{acceleration}</td>
-                        </tr>
+                    <tr>
+                        <td data-label="Horsepower">{horsepower}</td>
+                        <td data-label="Gearbox">{gearbox}</td>
+                        <td data-label="Engine">{engine}</td>
+                        <td data-label="Acceleration">{acceleration}</td>
+                    </tr>
                     </tbody>
                     <thead>
-                        <tr>
-                            <th scope="col">Length</th>
-                            <th scope="col">Height</th>
-                            <th scope="col">Width</th>
-                            <th scope="col">{label.Body}</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Length</th>
+                        <th scope="col">Height</th>
+                        <th scope="col">Width</th>
+                        <th scope="col">{label.Body}</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td data-label="Length">{length}</td>
-                            <td data-label="Height">{height}</td>
-                            <td data-label="Width">{width}</td>
-                            <td data-label="Body">{body}</td>
-                        </tr>
+                    <tr>
+                        <td data-label="Length">{length}</td>
+                        <td data-label="Height">{height}</td>
+                        <td data-label="Width">{width}</td>
+                        <td data-label="Body">{body}</td>
+                    </tr>
                     </tbody>
                     <thead>
                     <tr>
@@ -100,12 +101,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td data-label="Fuel consumption">{fuelConsumption}</td>
-                            <td data-label="Number of seats">{numberOfSeats}</td>
-                            <td data-label="Production year">{yearOfProduction}</td>
-                            <td data-label="Body">{theSizeOfTheWheels}</td>
-                        </tr>
+                    <tr>
+                        <td data-label="Fuel consumption">{fuelConsumption}</td>
+                        <td data-label="Number of seats">{numberOfSeats}</td>
+                        <td data-label="Production year">{yearOfProduction}</td>
+                        <td data-label="Body">{theSizeOfTheWheels}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

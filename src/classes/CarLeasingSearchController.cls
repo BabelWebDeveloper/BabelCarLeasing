@@ -3,7 +3,7 @@ public without sharing class CarLeasingSearchController {
     public static List<PriceBookEntry> searchCarsByName(String carNameSearchKey) {
         List<PricebookEntry> priceBookEntries = new List<PricebookEntry>();
         if (!String.isEmpty(carNameSearchKey)) {
-            carNameSearchKey += '%';
+            carNameSearchKey += CarLeasingSettingService.SOQL_WILDCARD;
             priceBookEntries = [
                     SELECT Id, UnitPrice, Product2.Manufacturer__c, Product2.Model__c, Product2.Horsepower__c,
                             Product2.Gearbox__c, Product2.Engine_Type__c, Product2.Picture__c, Product2.Body_Type__c,
