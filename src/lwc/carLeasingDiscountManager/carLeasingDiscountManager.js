@@ -55,7 +55,7 @@ export default class CarLeasingDiscountManager extends LightningElement {
         this.discountValue = event.detail.value;
     }
 
-    submitDetails() {
+    createPricebook() {
         this.isLoading = true;
         let discountWrapper = {
             discountValue: this.discountValue,
@@ -118,7 +118,8 @@ export default class CarLeasingDiscountManager extends LightningElement {
     getSelectedDiscount(event) {
         const selectedRows = event.detail.selectedRows;
         for (let i = 0; i < selectedRows.length; i++) {
-            this.selectedDiscountId = selectedRows[i];
+            console.log(selectedRows[i].Id);
+            this.selectedDiscountId = selectedRows[i].Id;
         }
     }
 
@@ -127,8 +128,8 @@ export default class CarLeasingDiscountManager extends LightningElement {
     getSelectedName(event) {
         let currentRows = event.detail.selectedRows;
         if (this.selectedProductIdsProxy.length > 0) {
-            let selectedIds = currentRows.map(row => row.id);
-            let unselectedRows = this.selectedProductIdsProxy.filter(row => !selectedIds.includes(row.id));
+            let selectedIds = currentRows.map(row => row);
+            let unselectedRows = this.selectedProductIdsProxy.filter(row => !selectedIds.includes(row));
         }
         this.selectedProductIdsProxy = currentRows;
         this.fillSelectedProductIds();
@@ -138,14 +139,14 @@ export default class CarLeasingDiscountManager extends LightningElement {
 
     fillSelectedProductIds() {
         this.selectedProductIdsProxy.forEach(product => {
-            this.selectedProductIds.push(product.Id);
+            this.selectedProductIds.push(product);
         })
     }
 
     assignPricebookToProduct() {
         getAssignPricebookToProduct({
-            productIds: this.selectedProductIds,
-            discountId: this.selectedDiscountId
+            product2s: this.selectedProductIds,
+            pricebook2Id: this.selectedDiscountId
         })
             .then(result => {
                 console.log(result)

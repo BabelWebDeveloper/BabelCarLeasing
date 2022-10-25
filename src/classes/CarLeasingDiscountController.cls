@@ -3,13 +3,13 @@ public without sharing class CarLeasingDiscountController {
     public static Pricebook2 CreatePricebook(CarLeasingWrapper wrapper) {
         Pricebook2 pricebook2 = new Pricebook2();
         pricebook2.Name = wrapper.discountName;
-        pricebook2.IsActive = false;
+        pricebook2.IsActive = true;
 
         if (wrapper.discountType == CarLeasingSettingService.DISCOUNT_TYPE_PERCENT) {
-            wrapper.discountValue = (Integer) pricebook2.Percent_discount__c;
+            pricebook2.Percent_discount__c = wrapper.discountValue;
         }
         if (wrapper.discountType == CarLeasingSettingService.DISCOUNT_TYPE_CURRENCY) {
-            wrapper.discountValue = (Double) pricebook2.Currency_discount__c;
+            pricebook2.Currency_discount__c = wrapper.discountValue;
         }
 
         try {
@@ -18,7 +18,7 @@ public without sharing class CarLeasingDiscountController {
         } catch (Exception e) {
             System.debug(e);
         }
-        return null;
+        return Pricebook2;
     }
 
     @AuraEnabled
@@ -33,7 +33,7 @@ public without sharing class CarLeasingDiscountController {
     @AuraEnabled
     public static List<Product2> getAllProducts() {
         List<Product2> priceBookEntries = [
-                SELECT Id, Model__c, Manufacturer__c, (SELECT Pricebook2.Name FROM PricebookEntries)
+                SELECT Id, Model__c, Manufacturer__c, IsActive, (SELECT UnitPrice FROM PricebookEntries)
                 FROM Product2
         ];
 
@@ -41,13 +41,63 @@ public without sharing class CarLeasingDiscountController {
     }
 
     @AuraEnabled
-    public static Pricebook2 AssignPricebookToProduct(List<String> productIds, Pricebook2 discountId){
-//- wybieramy pricebook oraz product
-//- jeśli wybrany pricebook jest standardowy wtedy usuwamy pozostałe pricebookEntry dla tego produktu
-//- jeśli nie jest:
-//	- dodaje się nowy pricebookEntry
-//	- Trigger before insert na pricebookEntry który wyszuka wszystkie pricebookiEntry powiązane z danym produktem
-//	i wyłączy wszystkie pricebookiEntry które pochodzą od tych pricebooków które nie są standardowe
-        return discountId;
+    public static void AssignPricebookToProduct(List<Product2> product2s, String pricebook2Id){
+        Pricebook2 pricebook2 = [SELECT
+                Id, IsActive, IsStandard, Currency_discount__c, Percent_discount__c
+        FROM Pricebook2 WHERE Id =: pricebook2Id];
+
+        List<PricebookEntry> customPricebookEntry = [
+                SELECT Id, Product2Id, IsActive, Pricebook2Id, Pricebook2.IsStandard, Product2.Manufacturer__c, Product2.Model__c, UnitPrice
+                FROM PricebookEntry
+                WHERE Product2Id IN : product2s
+                AND Pricebook2.IsStandard = FALSE
+        ];
+
+        Boolean isPricebookAlreadyAssignedToProduct = false;
+        PricebookEntry assignedPriceBookEntry = new PricebookEntry();
+
+        for (PricebookEntry pricebookEntry : customPricebookEntry){
+            pricebookEntry.IsActive = false;
+            if (pricebookEntry.Pricebook2Id == pricebook2Id) {
+                isPricebookAlreadyAssignedToProduct = true;
+                assignedPriceBookEntry = pricebookEntry;
+            }
+        }
+        update customPricebookEntry;
+
+        System.debug(isPricebookAlreadyAssignedToProduct);
+
+        if (isPricebookAlreadyAssignedToProduct == true) {
+            assignedPriceBookEntry.IsActive = true;
+            update assignedPriceBookEntry;
+        }
+        else {
+            List<PricebookEntry> standardPricebookEntry = [
+                    SELECT Id, Product2Id, IsActive, Pricebook2Id, Pricebook2.IsStandard, Product2.Manufacturer__c, Product2.Model__c, UnitPrice
+                    FROM PricebookEntry
+                    WHERE Product2Id IN : product2s
+                    AND Pricebook2.IsStandard = TRUE
+            ];
+
+            List<PricebookEntry> newPricebookEntry = new List<PricebookEntry>();
+            for (PricebookEntry pricebookEntry : standardPricebookEntry){
+                PricebookEntry pricebookEntry2 = new PricebookEntry();
+                if (pricebook2.Currency_discount__c != 0 && pricebook2.Currency_discount__c != null) {
+                    pricebookEntry2.UnitPrice = pricebookEntry.UnitPrice - pricebook2.Currency_discount__c;
+                }
+                if (pricebook2.Percent_discount__c != 0 && pricebook2.Percent_discount__c != null) {
+                    pricebookEntry2.UnitPrice = pricebookEntry.UnitPrice * (1 - pricebook2.Percent_discount__c);
+                }
+                pricebookEntry2.Product2Id = pricebookEntry.Product2Id;
+                pricebookEntry2.Pricebook2Id = pricebook2.Id;
+                pricebookEntry2.IsActive = true;
+                newPricebookEntry.add(pricebookEntry2);
+            }
+            try {
+                insert newPricebookEntry;
+            } catch (Exception e){
+                System.debug(e);
+            }
+        }
     }
 }
