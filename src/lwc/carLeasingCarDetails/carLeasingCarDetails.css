@@ -32,6 +32,8 @@ section {
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: contain !important;
+    display: flex;
+    justify-content: center;
 }
 
 .profile-img{
@@ -432,4 +434,7 @@ iframe{
 }
 p{
     width: 70%;
+}
+.toast-bar-style{
+    background-color: #FD6B02;
 }

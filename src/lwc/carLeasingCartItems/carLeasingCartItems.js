@@ -1,4 +1,4 @@
-import {LightningElement, track, wire} from 'lwc';
+import {LightningElement, track, wire, api} from 'lwc';
 import userOrderItems from '@salesforce/apex/CarLeasingCartController.getOrderItems';
 import createOrder from '@salesforce/apex/CarLeasingCartController.setActiveOrder';
 import Cart_items from '@salesforce/label/c.Cart_items';
@@ -125,32 +125,17 @@ export default class CarLeasingCartItems extends LightningElement {
             orderId: this.orderId
         })
             .then(() => {
-                this.showCheckoutMessage()
-                    .then(()=> {
-                        this.orderItems = false;
-                    })
-                    .then(() => {
-                        this.isLoading = false;
-                    })
-                    .then(() => {
-                        window.location.href = "/bcl/";
-                    })
-                    .catch((error) => {
-                        this.error = error;
-                    });
+                this.showToast('success','Order was created','utility:success',3000);
+            })
+            .then(() => {
+                window.location.href = "/bcl/orders";
             })
             .catch((error) => {
                 this.error = error;
             });
     }
-    async showDeleteMessage() {
-        await LightningAlert.open({
-            message: 'Product has been deleted from your cart.',
-            theme: 'default'
-        })
-            .then(() => {
-                window.location.reload();
-            })
+    showDeleteMessage() {
+        this.showToast('success','Item deleted from cart','utility:success',3000);
     }
 
     async showCheckoutMessage() {
@@ -161,5 +146,31 @@ export default class CarLeasingCartItems extends LightningElement {
             .then(() => {
                 window.location.reload();
             })
+    }
+
+    @track type='';
+    @track message = '';
+    @track messageIsHtml=false;
+    @track showToastBar = false;
+    @api autoCloseTime = 3000;
+    @track icon='utility:success';
+
+    @api
+    showToast(type, message,icon,time) {
+        this.type = type;
+        this.message = message;
+        this.icon=icon;
+        this.autoCloseTime=time;
+        this.showToastBar = true;
+        setTimeout(() => {
+            this.closeModel();
+        }, this.autoCloseTime);
+    }
+
+    closeModel() {
+        this.showToastBar = false;
+        this.type = '';
+        this.message = '';
+        window.location.reload();
     }
 }

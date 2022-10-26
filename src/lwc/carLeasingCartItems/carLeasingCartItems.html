@@ -1,8 +1,8 @@
 <template>
     <template if:true={showConnectedMessage}>
+        <h2 class="slds-m-vertical_medium">{label.Cart_items}</h2>
         <section>
             <div class="slds-scrollable_y div-items">
-                <h2>{label.Cart_items}</h2>
                 <lightning-layout horizontal-align="center" multiple-rows class="cart-layout-style">
                     <template for:each={orderItems} for:item="car">
                         <lightning-layout-item key={car.Id} padding="around-small" size="12" small-device-size="6"
@@ -65,5 +65,37 @@
     </template>
     <template if:false={showConnectedMessage}>
         <h2>{label.Your_cart_is_empty}</h2>
+    </template>
+    <template if:true={showToastBar}>
+        <div class="slds-m-top_large">
+            <div class="slds-notify_container">
+                <div class="" role="status">
+                    <div class="slds-notify_container slds-is-relative">
+                        <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+                            <span class="slds-assistive-text">{type}</span>
+                            <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top"
+                                  title="Description of icon when needed">
+                              <div class="slds-icon slds-icon_small" aria-hidden="true">
+                                <lightning-icon icon-name="utility:success" alternative-text="Success" title="Success"></lightning-icon>
+                              </div>
+                            </span>
+                            <div class="slds-notify__content">
+                                <h2 class="slds-p-vertical_none slds-text-heading_small">{message}</h2>
+                            </div>
+                            <div class="slds-notify__close">
+                                <button class="slds-button slds-button_icon slds-button_icon-inverse" title="Close">
+                                    <div class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                        <lightning-button-icon icon-name="utility:close" size="small" variant="border-filled"
+                                                               class="slds-button slds-button_icon slds-button_icon-inverse"
+                                                               alternative-text="next" onclick={closeModel} ></lightning-button-icon>
+                                    </div>
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </template>
 </template>

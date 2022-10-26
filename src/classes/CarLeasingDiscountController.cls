@@ -65,8 +65,6 @@ public without sharing class CarLeasingDiscountController {
         }
         update customPricebookEntry;
 
-        System.debug(isPricebookAlreadyAssignedToProduct);
-
         if (isPricebookAlreadyAssignedToProduct == true) {
             assignedPriceBookEntry.IsActive = true;
             update assignedPriceBookEntry;
@@ -86,7 +84,7 @@ public without sharing class CarLeasingDiscountController {
                     pricebookEntry2.UnitPrice = pricebookEntry.UnitPrice - pricebook2.Currency_discount__c;
                 }
                 if (pricebook2.Percent_discount__c != 0 && pricebook2.Percent_discount__c != null) {
-                    pricebookEntry2.UnitPrice = pricebookEntry.UnitPrice * (1 - pricebook2.Percent_discount__c);
+                    pricebookEntry2.UnitPrice = pricebookEntry.UnitPrice * (1 - (pricebook2.Percent_discount__c * 0.01));
                 }
                 pricebookEntry2.Product2Id = pricebookEntry.Product2Id;
                 pricebookEntry2.Pricebook2Id = pricebook2.Id;
@@ -99,5 +97,10 @@ public without sharing class CarLeasingDiscountController {
                 System.debug(e);
             }
         }
+    }
+
+    @AuraEnabled
+    public static void deletePricebook(String pricebookId){
+        delete [SELECT Id FROM Pricebook2 WHERE Id =: pricebookId];
     }
 }

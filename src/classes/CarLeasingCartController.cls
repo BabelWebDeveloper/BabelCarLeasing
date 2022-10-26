@@ -48,7 +48,6 @@ public without sharing class CarLeasingCartController {
     public static OrderItem createOrderItem(String carId, String manufacturer, String model, String picture,
             Double totalMonthlyPayment, Integer carsQuantity, Integer contractPeriod, Double startFee,
             String orderId, String userAccountId, Double unitPrice) {
-        System.debug('unitPrice: ' + unitPrice);
 
         try {
             String pricebookId = [
@@ -56,14 +55,12 @@ public without sharing class CarLeasingCartController {
                     FROM Pricebook2
                     WHERE IsStandard = TRUE
             ].Id;
-            System.debug('pricebookId: ' + pricebookId);
             String pricebookEntryId = [
                     SELECT Id, Name, Product2Id, Pricebook2.IsStandard
                     FROM PricebookEntry
                     WHERE Product2Id = :carId
                     AND Pricebook2.IsStandard = TRUE
             ].Id;
-            System.debug('pricebookEntryId: ' + pricebookEntryId);
 
             if (orderId == null) {
                 Order order = new Order();
@@ -72,7 +69,6 @@ public without sharing class CarLeasingCartController {
                 order.Status = CarLeasingSettingService.ORDER_STATUS_DRAFT;
                 order.PriceBook2Id = pricebookId;
                 insert order;
-                System.debug(order);
 
                 OrderItem lineItem = new OrderItem();
                 lineItem.OrderId = order.id;
@@ -81,7 +77,6 @@ public without sharing class CarLeasingCartController {
                 lineItem.Product2id = carId;
                 lineItem.PricebookEntryId = pricebookEntryId;
                 insert lineItem;
-                System.debug(lineItem);
                 return lineItem;
 
             } else {
@@ -92,7 +87,6 @@ public without sharing class CarLeasingCartController {
                 lineItem.Product2id = carId;
                 lineItem.PricebookEntryId = pricebookEntryId;
                 insert lineItem;
-                System.debug('lineItem: ' + lineItem);
                 return lineItem;
             }
         } catch (Exception e) {
@@ -117,7 +111,6 @@ public without sharing class CarLeasingCartController {
         order.BillingPostalCode = billingStreet;
         order.Status = CarLeasingSettingService.ORDER_STATUS_ACTIVATED;
 
-        System.debug(order);
         try {
             update order;
         } catch (Exception e) {

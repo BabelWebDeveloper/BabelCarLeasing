@@ -1,4 +1,4 @@
-import {LightningElement, wire, track} from 'lwc';
+import {LightningElement, wire, track, api} from 'lwc';
 import findCarById from '@salesforce/apex/CarLeasingCarDetailsController.searchCarsById';
 import listOfGalleryUrl from '@salesforce/apex/CarLeasingCarDetailsController.getUrlsFromContentDistribution';
 import {publish, MessageContext} from 'lightning/messageService';
@@ -41,6 +41,7 @@ export default class CarLeasingCarDetails extends LightningElement {
     listOfGalleryPictures;
     cartItemsNumber = 0;
     changePriceCss;
+    comments;
 
     maxStartFee;
     stepOfFee;
@@ -140,10 +141,7 @@ export default class CarLeasingCarDetails extends LightningElement {
             cartItemsNumber: this.cartItemsNumber
         };
         this.sendMessageService(detailsLoad);
-        this.showAddToCartConfirmMessage()
-            .then(() => {
-                window.location.reload();
-            })
+        this.showToast('success','Item added to cart','utility:success',3000);
     }
 
     sendMessageService(detailsLoad) {
@@ -216,5 +214,31 @@ export default class CarLeasingCarDetails extends LightningElement {
         Gearbox,
         Engine,
         Body
+    }
+
+    @track type='';
+    @track message = '';
+    @track messageIsHtml=false;
+    @track showToastBar = false;
+    @api autoCloseTime = 3000;
+    @track icon='utility:success';
+
+    @api
+    showToast(type, message,icon,time) {
+        this.type = type;
+        this.message = message;
+        this.icon=icon;
+        this.autoCloseTime=time;
+        this.showToastBar = true;
+        setTimeout(() => {
+            this.closeModel();
+        }, this.autoCloseTime);
+    }
+
+    closeModel() {
+        this.showToastBar = false;
+        this.type = '';
+        this.message = '';
+        window.location.reload();
     }
 }

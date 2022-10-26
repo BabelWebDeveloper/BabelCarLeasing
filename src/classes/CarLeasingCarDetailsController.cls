@@ -31,7 +31,7 @@ public without sharing class CarLeasingCarDetailsController {
     public static List<Comment__c> getAllComments(String product2Id) {
         return [
                 SELECT
-                        Id, CommentText__c, Rating__c, Product__c, CreatedById
+                        Id, CommentText__c, Rating__c, Product__c, CreatedBy.Name, CreatedBy.SmallPhotoUrl
                 FROM Comment__c
                 WHERE Product__c = :product2Id
         ];
@@ -44,7 +44,10 @@ public without sharing class CarLeasingCarDetailsController {
         comment.Rating__c = rate;
         comment.CommentText__c = commentText;
 
-        insert comment;
+        try {
+            insert comment;
+        } catch (Exception e){}
+
         return comment;
     }
 

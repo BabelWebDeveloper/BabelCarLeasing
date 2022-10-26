@@ -1,43 +1,69 @@
 <template>
-    <!--- Discount Manager --->
     <p></p>
     <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-body row">
-                <div class="col-sm-6 col-xs-12 slds-box slds-theme_shade">
-                    <lightning-button variant="brand"
-                                      label="New Discount"
-                                      title="New Discount"
-                                      onclick={openPricebookModal}
-                                      class="slds-m-left_x-small">
-                    </lightning-button>
-                    <lightning-button variant="brand"
-                                      label="Remove Selected"
-                                      title="Remove Selected"
-                                      class="slds-m-left_x-small">
-                    </lightning-button>
-                    <lightning-button variant="brand"
-                                      label="Change Date Range"
-                                      title="Change Date Range"
-                                      class="slds-m-left_x-small">
-                    </lightning-button>
-                </div>
+        <div class="slds-grid">
+            <div class="slds-col div-style-discount-manager">
+                <lightning-card title="Discount List:">
+                    <div class="panel panel-default slds-p-around_small">
+                        <div class="panel-body row">
+                            <div class="col-sm-6 col-xs-12 slds-box slds-theme_shade">
+                                <lightning-button variant="brand"
+                                                  label="New Discount"
+                                                  title="New Discount"
+                                                  onclick={openPricebookModal}
+                                                  class="slds-m-left_x-small">
+                                </lightning-button>
+                                <lightning-button variant="brand"
+                                                  label="Remove Selected"
+                                                  title="Remove Selected"
+                                                  onclick={removeDiscount}
+                                                  class="slds-m-left_x-small">
+                                </lightning-button>
+                                <lightning-button variant="brand"
+                                                  label="Edit Selected"
+                                                  title="Edit Selected"
+                                                  onclick={editDiscount}
+                                                  class="slds-m-left_x-small">
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-m-around_medium">
+                        <template if:true={priceBooks}>
+                            <lightning-datatable
+                                    data={priceBooks}
+                                    columns={columns}
+                                    key-field="id"
+                                    max-row-selection="1"
+                                    onrowselection={getSelectedDiscount}>
+                            </lightning-datatable>
+                        </template>
+                    </div>
+                </lightning-card>
+            </div>
+            <div class="slds-col div-style-discount-manager slds-m-left_small">
+                <lightning-card title="Product List:" class="">
+                    <div class="slds-m-around_medium">
+                        <template if:true={products}>
+                            <lightning-datatable
+                                    data={products}
+                                    columns={productColumns}
+                                    key-field="Id"
+                                    onrowselection={getSelectedName}>
+                            </lightning-datatable>
+                        </template>
+                    </div>
+                    <div class="slds-p-around_medium">
+                        <div class="slds-text-body_regular slds-p-bottom_medium">Select existing pricebook and products to assign.</div>
+                        <lightning-button variant="brand"
+                                          label="Set New Pricebook"
+                                          title="Set New Pricebook"
+                                          onclick={assignPricebookToProduct}>
+                        </lightning-button>
+                    </div>
+                </lightning-card>
             </div>
         </div>
-
-        <lightning-card title="Discount List:">
-            <div class="slds-m-around_medium">
-                <template if:true={priceBooks}>
-                    <lightning-datatable
-                            data={priceBooks}
-                            columns={columns}
-                            key-field="id"
-                            max-row-selection="1"
-                            onrowselection={getSelectedDiscount}>
-                    </lightning-datatable>
-                </template>
-            </div>
-        </lightning-card>
 
         <template if:true={isNewPricebookModalOpen}>
             <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
@@ -104,24 +130,5 @@
             </section>
             <div class="slds-backdrop slds-backdrop_open"></div>
         </template>
-
-        <lightning-card title="Product List:" class="">
-            <div class="slds-m-around_medium">
-                <template if:true={products}>
-                    <lightning-datatable
-                            data={products}
-                            columns={productColumns}
-                            key-field="Id"
-                            onrowselection={getSelectedName}>
-                    </lightning-datatable>
-                </template>
-            </div>
-            <lightning-button variant="brand"
-                              label="Set New Pricebook"
-                              title="Set New Pricebook"
-                              class="slds-m-around_medium"
-                              onclick={assignPricebookToProduct}>
-            </lightning-button>
-        </lightning-card>
     </div>
 </template>

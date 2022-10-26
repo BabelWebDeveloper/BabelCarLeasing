@@ -10,7 +10,7 @@ section:hover{
     border-bottom: 2px solid #000000;
 }
 .tile {
-    height: 220px;
+    height: 500px;
     padding: 1px !important;
     border-radius: 5px;
     width: 100% !important;
@@ -20,6 +20,10 @@ section:hover{
     background-size: contain !important;
     display: flex !important;
     align-items: flex-end !important;
+    justify-content: center!important;
+}
+.tile-img{
+    width: 100%;
 }
 
 .selected {

@@ -5,15 +5,18 @@
                 <template for:each={activeOrders.data} for:item="order">
                     <lightning-layout-item key={order.Id} padding="around-small" size="12" small-device-size="12"
                                            medium-device-size="12" large-device-size="8">
+                        <h1>Order date: {order.CreatedDate}</h1>
                         <template for:each={order.OrderItems} for:item="item">
                             <div key={item.Id} class="style-orders">
                                 <div class="div-class-orders">
                                     <img class="style-img-orders" src={item.Product2.Picture__c}/>
                                 </div>
                                 <div class="div-class-order-details">
-                                    <h1>{item.Product2.Manufacturer__c} {item.Product2.Model__c}</h1>
+                                    <h2>{item.Product2.Manufacturer__c} {item.Product2.Model__c}</h2>
                                     <p>{label.Quantity} {item.Quantity}</p>
                                     <p>{label.Totalcost} {item.TotalPrice} {label.EUR}</p>
+                                    <div data-target-id={item.Id} class="div-button-report-case"
+                                         onclick={reportProblem}>Report a problem</div>
                                 </div>
                             </div>
                         </template>
@@ -23,7 +26,7 @@
             </lightning-layout>
         </div>
     </template>
-    <template if:false={activeOrders.data}>
+    <template if:true={showConnectedMessage}>
         <h2>{label.You_haven_t_had_any_orders_yet}</h2>
     </template>
 </template>

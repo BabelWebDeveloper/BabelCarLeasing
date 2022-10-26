@@ -48,7 +48,8 @@
     <section class="section-gallery-style">
         <template if:true={listOfGalleryPictures}>
             <template for:each={listOfGalleryPictures} for:item="picture" class="template-img-style">
-                <div key={listOfGalleryPictures.Id} style="width: 30%; height: 200px; display: flex; justify-content: center; align-items: center">
+                <div key={listOfGalleryPictures.Id}
+                     style="width: 30%; height: 200px; display: flex; justify-content: center; align-items: center">
                     <img class="img-gallery-style"
                          src={picture.ContentDownloadUrl} alt="Babel Car Leasing"/>
                 </div>
@@ -124,27 +125,65 @@
         </div>
     </section>
     <section>
-        <div class="div-comment-style">
-            <div class="comments-container">
-                <h2>Comments</h2>
-                <ul id="comments-list" class="comments-list">
-                    <li>
-                        <div class="comment-main-level">
-                            <div class="comment-avatar">
+        <template if:true={comments}>
+            <div class="div-comment-style">
+                <div class="comments-container">
+                    <h2>Comments</h2>
+                    <template for:each={comments} for:item="comment">
+                        <ul key={comment.Id} id="comments-list" class="comments-list">
+                            <li>
+                                <div class="comment-main-level">
+                                    <div class="comment-avatar"><img src={comment.CreatedBy.SmallPhotoUrl}/>
+                                    </div>
+                                    <div class="comment-box">
+                                        <div class="comment-head">
+                                            <h6 class="comment-name by-author">{comment.CreatedBy.Name}</h6>
+                                        </div>
+                                        <div class="comment-content">
+                                            {comment.CommentText__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </template>
+                </div>
+            </div>
+        </template>
+        <template if:false={comments}>
+            <h2>This product doesn't have any comments yet.</h2>
+        </template>
+    </section>
+    <template if:true={showToastBar}>
+        <div class="slds-m-top_large">
+            <div class="slds-notify_container">
+                <div class="" role="status">
+                    <div class="slds-notify_container slds-is-relative">
+                        <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+                            <span class="slds-assistive-text">{type}</span>
+                            <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top"
+                                  title="Description of icon when needed">
+                              <div class="slds-icon slds-icon_small" aria-hidden="true">
+                                <lightning-icon icon-name="utility:success" alternative-text="Success" title="Success"></lightning-icon>
+                              </div>
+                            </span>
+                            <div class="slds-notify__content">
+                                <h2 class="slds-p-vertical_none slds-text-heading_small">{message}</h2>
                             </div>
-                            <div class="comment-box">
-                                <div class="comment-head">
-                                    <h6 class="comment-name by-author">Agustin Ortiz</h6>
-                                </div>
-                                <div class="comment-content">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure
-                                    laudantium vitae, praesentium optio, sapiente distinctio illo?
-                                </div>
+                            <div class="slds-notify__close">
+                                <button class="slds-button slds-button_icon slds-button_icon-inverse" title="Close">
+                                    <div class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                        <lightning-button-icon icon-name="utility:close" size="small" variant="border-filled"
+                                                               class="slds-button slds-button_icon slds-button_icon-inverse"
+                                                               alternative-text="next" onclick={closeModel} ></lightning-button-icon>
+                                    </div>
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
                             </div>
                         </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </template>
 </template>

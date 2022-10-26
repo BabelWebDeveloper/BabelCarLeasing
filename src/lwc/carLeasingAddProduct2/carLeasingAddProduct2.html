@@ -1,128 +1,152 @@
 <template>
-    <div class="slds-grid slds-gutters">
-        <div class="slds-col">
-            <div>
-                <lightning-input label="Manufacturer" onchange={handleManufacturer} type="text" name="title"
-                                 value={manufacturer}></lightning-input>
+    <div class="add-product-style slds-p-around_large">
+
+        <div class="slds-media">
+            <div class="slds-media__figure">
+              <span class="slds-icon_container slds-icon-standard-opportunity" title="opportunity">
+                <div class="slds-icon" aria-hidden="true">
+                  <lightning-icon icon-name="standard:event" alternative-text="Event" title="Event"></lightning-icon>
+                </div>
+                <span class="slds-assistive-text">product</span>
+              </span>
             </div>
-            <div>
-                <lightning-input label="Model" onchange={handleModel} type="text" value={model}></lightning-input>
-            </div>
-            <div>
-                <lightning-input label="Production date" onchange={handleProductionYear} type="date"
-                                 value={productionYear}></lightning-input>
-            </div>
-            <div>
-                <lightning-input label="Review link" onchange={handleReview} type="text" name="title"
-                                 value={review}></lightning-input>
-            </div>
-            <div>
-                <lightning-input label="Price" onchange={handlePrice} type="number"
-                                 value={price}></lightning-input>
-            </div>
-            <div>
-                <lightning-input label="Number of seats" onchange={handleNumberOfSeats} type="number"
-                                 value={numberOfSeats}></lightning-input>
+            <div class="slds-media__body">
+                <p class="slds-page-header__name-meta">Product</p>
+                <div class="slds-page-header__name">
+                    <div class="slds-page-header__name-title">
+                        <h1>
+                            <span class="slds-page-header__title slds-truncate" title="Add New product">Add New product</span>
+                        </h1>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="slds-col">
-            <div>
-                <lightning-input label="Height" onchange={handleHeight} type="number"
-                                 value={height}></lightning-input>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+                <div>
+                    <lightning-input label="Manufacturer" onchange={handleManufacturer} type="text" name="title"
+                                     value={manufacturer}></lightning-input>
+                </div>
+                <div>
+                    <lightning-input label="Model" onchange={handleModel} type="text" value={model}></lightning-input>
+                </div>
+                <div>
+                    <lightning-input label="Production date" onchange={handleProductionYear} type="date"
+                                     value={productionYear}></lightning-input>
+                </div>
+                <div>
+                    <lightning-input label="Review link" onchange={handleReview} type="text" name="title"
+                                     value={review}></lightning-input>
+                </div>
+                <div>
+                    <lightning-input label="Price" onchange={handlePrice} type="number"
+                                     value={price}></lightning-input>
+                </div>
+                <div>
+                    <lightning-input label="Number of seats" onchange={handleNumberOfSeats} type="number"
+                                     value={numberOfSeats}></lightning-input>
+                </div>
             </div>
-            <div>
-                <lightning-input label="Width" onchange={handleWidth} type="number"
-                                 value={width}></lightning-input>
-            </div>
-            <div>
-                <lightning-input label="Length" onchange={handleLength} type="number"
-                                 value={length}></lightning-input>
-            </div>
-            <div>
-                <lightning-input label="The size of the wheels" onchange={handleTheSizeOfTheWheels} type="number"
-                                 value={theSizeOfTheWheels}></lightning-input>
-            </div>
-            <div>
-                <template if:true={bodyTypePicklist.data}>
-                    <lightning-combobox name="Body type" label="Body type" value={bodyType}
-                                        options={bodyTypePicklist.data.values} onchange={handleBodyType}>
-                    </lightning-combobox>
-                </template>
-            </div>
-            <div>
-                <lightning-file-upload
-                        name="fileUploader"
-                        accept={acceptedFormats}
-                        record-id={newCarId}
-                        onuploadfinished={handleUploadProfileFinished}
-                        multiple="false">
-                </lightning-file-upload>
-            </div>
-        </div>
-        <div class="slds-col">
-            <div>
-                <lightning-input label="Acceleration" onchange={handleAcceleration} type="number"
-                                 value={acceleration}></lightning-input>
-            </div>
-            <div>
-                <lightning-input label="Horsepower" onchange={handleHorsepower} type="number"
-                                 value={horsepower}></lightning-input>
-            </div>
-            <div>
-                <lightning-input label="Engine capacity" onchange={handleEngineCapacity} type="number"
-                                 value={engineCapacity}></lightning-input>
-            </div>
-            <div>
-                <lightning-input label="Average fuel consumption" onchange={handleAverageFuelConsumption} type="number"
-                                 value={averageFuelConsumption}></lightning-input>
-            </div>
-            <div>
-                <template if:true={gearboxTypePicklist.data}>
-                    <lightning-combobox name="Engine type" label="Engine type" value={engineType}
-                                        options={engineTypePicklist.data.values} onchange={handleEngineType}>
-                    </lightning-combobox>
-                </template>
-            </div>
-            <div>
-                <template if:true={gearboxTypePicklist.data}>
-                    <lightning-combobox name="Gearbox type" label="Gearbox type" value={gearbox}
-                                        options={gearboxTypePicklist.data.values} onchange={handleGearboxType}>
-                    </lightning-combobox>
-                </template>
-            </div>
-        </div>
-    </div>
-    <lightning-button variant="brand" onclick={saveCar} label="Save"></lightning-button>
-    <template if:true={isImageModalOpen}>
-        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-            <div class="slds-modal__container">
-                <header class="slds-modal__header">
-                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
-                        <lightning-icon icon-name="utility:close"
-                                        alternative-text="close"
-                                        variant="inverse"
-                                        size="small" ></lightning-icon>
-                        <span class="slds-assistive-text">Close</span>
-                    </button>
-                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Modal/PopUp Box header LWC</h2>
-                </header>
-                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <div class="slds-col">
+                <div>
+                    <lightning-input label="Height" onchange={handleHeight} type="number"
+                                     value={height}></lightning-input>
+                </div>
+                <div>
+                    <lightning-input label="Width" onchange={handleWidth} type="number"
+                                     value={width}></lightning-input>
+                </div>
+                <div>
+                    <lightning-input label="Length" onchange={handleLength} type="number"
+                                     value={length}></lightning-input>
+                </div>
+                <div>
+                    <lightning-input label="The size of the wheels" onchange={handleTheSizeOfTheWheels} type="number"
+                                     value={theSizeOfTheWheels}></lightning-input>
+                </div>
+                <div>
+                    <template if:true={bodyTypePicklist.data}>
+                        <lightning-combobox name="Body type" label="Body type" value={bodyType}
+                                            options={bodyTypePicklist.data.values} onchange={handleBodyType}>
+                        </lightning-combobox>
+                    </template>
+                </div>
+                <div>
                     <lightning-file-upload
+                            label="Upload Profile Picture"
                             name="fileUploader"
                             accept={acceptedFormats}
                             record-id={newCarId}
-                            onuploadfinished={handleUploadFinished}
-                            multiple="true">
+                            onuploadfinished={handleUploadProfileFinished}
+                            multiple="false">
                     </lightning-file-upload>
                 </div>
-                <footer class="slds-modal__footer">
-                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">
-                        Do not include any pictures</button>
-                    <button class="slds-button slds-button_brand" onclick={assignPictureToCar} title="OK">
-                        Save pictures</button>
-                </footer>
             </div>
-        </section>
-        <div class="slds-backdrop slds-backdrop_open"></div>
-    </template>
+            <div class="slds-col">
+                <div>
+                    <lightning-input label="Acceleration" onchange={handleAcceleration} type="number"
+                                     value={acceleration}></lightning-input>
+                </div>
+                <div>
+                    <lightning-input label="Horsepower" onchange={handleHorsepower} type="number"
+                                     value={horsepower}></lightning-input>
+                </div>
+                <div>
+                    <lightning-input label="Engine capacity" onchange={handleEngineCapacity} type="number"
+                                     value={engineCapacity}></lightning-input>
+                </div>
+                <div>
+                    <lightning-input label="Average fuel consumption" onchange={handleAverageFuelConsumption} type="number"
+                                     value={averageFuelConsumption}></lightning-input>
+                </div>
+                <div>
+                    <template if:true={gearboxTypePicklist.data}>
+                        <lightning-combobox name="Engine type" label="Engine type" value={engineType}
+                                            options={engineTypePicklist.data.values} onchange={handleEngineType}>
+                        </lightning-combobox>
+                    </template>
+                </div>
+                <div>
+                    <template if:true={gearboxTypePicklist.data}>
+                        <lightning-combobox name="Gearbox type" label="Gearbox type" value={gearbox}
+                                            options={gearboxTypePicklist.data.values} onchange={handleGearboxType}>
+                        </lightning-combobox>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <lightning-button variant="brand" class="slds-m-vertical_large" onclick={saveCar} label="Save"></lightning-button>
+        <template if:true={isImageModalOpen}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close"
+                                            alternative-text="close"
+                                            variant="inverse"
+                                            size="small" ></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Modal/PopUp Box header LWC</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-file-upload
+                                name="fileUploader"
+                                accept={acceptedFormats}
+                                record-id={newCarId}
+                                onuploadfinished={handleUploadFinished}
+                                multiple="true">
+                        </lightning-file-upload>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">
+                            Do not include any pictures</button>
+                        <button class="slds-button slds-button_brand" onclick={assignPictureToCar} title="OK">
+                            Save pictures</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </div>
 </template>

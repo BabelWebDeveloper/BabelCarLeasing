@@ -3,9 +3,14 @@ import createDiscount from '@salesforce/apex/CarLeasingDiscountController.Create
 import getAllPriceBooks from '@salesforce/apex/CarLeasingDiscountController.GetAllPriceBooks';
 import getAllProducts from '@salesforce/apex/CarLeasingDiscountController.getAllProducts';
 import getAssignPricebookToProduct from '@salesforce/apex/CarLeasingDiscountController.AssignPricebookToProduct';
+import removePricebook from '@salesforce/apex/CarLeasingDiscountController.deletePricebook';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import {NavigationMixin} from "lightning/navigation";
 
 const columns = [
     {label: 'PriceBook Name', fieldName: 'Name'},
+    {label: 'Percent Discount', fieldName: 'Percent_discount__c'},
+    {label: 'Currency Discount', fieldName: 'Currency_discount__c'},
 ];
 
 const productColumns = [
@@ -13,7 +18,7 @@ const productColumns = [
     {label: 'Model', fieldName: 'Model__c'},
 ]
 
-export default class CarLeasingDiscountManager extends LightningElement {
+export default class CarLeasingDiscountManager extends NavigationMixin(LightningElement) {
     columns = columns;
     productColumns = productColumns;
 
@@ -150,8 +155,64 @@ export default class CarLeasingDiscountManager extends LightningElement {
             product2s: this.selectedProductIds,
             pricebook2Id: this.selectedDiscountId
         })
-            .then(result => {
-                console.log(result)
+            .then(() => {
+                let toastMessage = {
+                    title: 'Success!',
+                    message: 'Pricebook successfully assigned to product!',
+                    variant: 'success',
+                }
+                this.showNotification(toastMessage);
             })
+            .catch((error) => {
+                let errorMessage = {
+                    title: 'Error',
+                    message: error,
+                    variant: 'error',
+                }
+                this.showNotification(errorMessage);
+            })
+    }
+
+    removeDiscount(){
+        removePricebook({pricebookId: this.selectedDiscountId})
+            .then(() => {
+                let toastMessage = {
+                    title: 'Success!',
+                    message: 'Pricebook successfully removed!',
+                    variant: 'success',
+                }
+                this.showNotification(toastMessage);
+            })
+            .then(() => {
+                window.location.reload();
+            })
+            .catch((error) => {
+                let errorMessage = {
+                    title: 'Error',
+                    message: error,
+                    variant: 'error',
+                }
+                this.showNotification(errorMessage);
+            })
+    }
+
+    editDiscount() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: this.selectedDiscountId,
+                objectApiName: 'Pricebook2',
+                actionName: 'view'
+            }
+        });
+    }
+
+    showNotification(toastMessage) {
+        const evt = new ShowToastEvent({
+            title: toastMessage.title,
+            message: toastMessage.message,
+            variant: toastMessage.variant,
+        });
+        this.dispatchEvent(evt);
     }
 }
